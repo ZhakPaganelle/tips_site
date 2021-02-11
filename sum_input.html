@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Благодарность</title>
+   <style type = "text/css" media = "all">
+   body {
+   margin: auto;
+   width: 50%;
+   text-align: center;
+   }
+   
+   .avatar {
+   border-radius: 50%;
+   width: 40%;
+   height: 40%;
+   }
+   
+   .tips_input {
+    border:none;
+    border-bottom: 1px solid #1890ff;
+    padding: 5px 10px;
+    outline: none;
+    }
+	
+	
+	.comission_check {
+		width: 40%
+	}
+	
+	.bank_logo {
+	width: 40%;
+	}
+	
+	[placeholder] {
+	text-align: center;
+	}
+	
+	[placeholder]:focus::-webkit-input-placeholder {
+    transition: text-indent 0.4s 0.4s ease; 
+    text-indent: -200%;
+	text-align: center;
+    opacity: 1;
+	}
+	
+	.check {
+	vertical-align: middle;
+	}
+	
+   </style>
+</head>
+
+<body onload="load_person()">
+<div> <!-- Человек -->
+<img class="avatar" id="avatar">
+<h3 id="person_name"><b></b></h3>
+<p id="aim"></p>
+</div>
+
+<div> <!-- Оплата -->
+<input name="tips_sum" id="tips_sum" onkeypress="count_comission()" class="tips_input" placeholder="Благодарность" type="text" inputmode="numeric" autocomplete="off" maxlength="5">
+
+<br>
+<br>
+
+<button onclick="pay()">Оплатить картой</button>
+
+<br>
+<div class="comission_check">
+
+</div>
+<input type="checkbox" class="check" name="comission">
+<label id="comission_value">Я согласен оплатить транзакционные <br>
+издержки (0 руб.), благодарность будет <br>
+ полностью зачислена получателю.</label>
+</div>
+
+<br>
+<br>
+<br>
+
+<div> <!-- Нижняя часть -->
+<img src="https://chaevieprosto.ru/svg/new/logo_mib.svg" class="bank_logo">
+<br>
+<p><em>Совершая платеж,<br>
+Вы соглашаетесь с <a href="">условиями</a> сервиса</em></p>
+</div>
+
+<p id="check"></p>
+
+<script>
+function load_person() {
+var pers_id = 0;
+document.getElementById("avatar").src = "https://selenium-python.com/wp-content/uploads/2017/11/locating-web-elements-selenium.jpg";
+document.getElementById("person_name").innerHTML = "Имярек";
+document.getElementById("aim").innerHTML = "Статус или цель (крайне необязательная штука)";
+
+}
+
+function count_comission() {
+var value = document.getElementById("tips_sum").value
+var com = value*0.015.toFixed(2);
+
+document.getElementById("comission_value").innerHTML = "Я согласен оплатить транзакционные <br/> издержки (" + com + " руб.), благодарность будет <br/>полностью зачислена получателю.";
+return com
+}
+
+function pay() {
+var com = count_comission()
+var value = document.getElementById("tips_sum").value
+
+document.getElementById("check").innerHTML = Number(value) + Number(com)
+}
+</script>
+</body>
+</html>
