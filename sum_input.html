@@ -90,26 +90,29 @@
 
 <script>
 function load_person() {
-var pers_id = 0;
-document.getElementById("avatar").src = "https://selenium-python.com/wp-content/uploads/2017/11/locating-web-elements-selenium.jpg";
-document.getElementById("person_name").innerHTML = "Имярек";
-document.getElementById("aim").innerHTML = "Статус или цель (крайне необязательная штука)";
-
+	var pers_id = 0;
+	document.getElementById("avatar").src = "https://selenium-python.com/wp-content/uploads/2017/11/locating-web-elements-selenium.jpg";
+	document.getElementById("person_name").innerHTML = "Имярек";
+	document.getElementById("aim").innerHTML = "Статус или цель (крайне необязательная штука)";
 }
 
 function count_comission() {
-var value = document.getElementById("tips_sum").value
-var com = value*0.015.toFixed(2);
+	var value = document.getElementById("tips_sum").value
+	var com = value*0.015.toFixed(2);
 
-document.getElementById("comission_value").innerHTML = "Я согласен оплатить транзакционные <br/> издержки (" + com + " руб.), благодарность будет <br/>полностью зачислена получателю.";
-return com
+	document.getElementById("comission_value").innerHTML = "Я согласен оплатить транзакционные <br/> издержки (" + com + " руб.), благодарность будет <br/>полностью зачислена получателю.";
+	return com
 }
 
 function pay() {
-var com = count_comission()
-var value = document.getElementById("tips_sum").value
+	var comission_to_pay = 0;
+	
+	if (document.getElementById("comission_check").checked){
+		comission_to_pay = count_comission()
+	};
+	var value = document.getElementById("tips_sum").value
 
-document.getElementById("check").innerHTML = Number(value) + Number(com)
+	document.getElementById("check").innerHTML = Number(value) + Number(com)
 }
 </script>
 </body>
