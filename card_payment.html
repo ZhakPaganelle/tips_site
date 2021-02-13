@@ -497,7 +497,6 @@ input {
 	<button onclick="paycheck()" class="card-btn">Submit</button>
  </div>
 
-<p id="suka"></p>
 <p id="cardcheck"></p>  <!-- Checking sending data -->
 <p id="expcheck"></p>
 <p id="cvccheck"></p>
@@ -770,30 +769,26 @@ window.onload = function () {
 
 
 function paycheck() {
-var card_number = document.getElementById("cardnumber").value;
-var expiration = document.getElementById("expirationdate").value;
-var cvc = document.getElementById("securitycode").value;
+	var card_number = document.getElementById("cardnumber").value;
+	var expiration = document.getElementById("expirationdate").value;
+	var cvc = document.getElementById("securitycode").value;
 
-// document.getElementById("suka").innerHTML = 1;
 
-if (card_number.toString().length >= 10 && expiration.toString().length >= 4 && cvc.toString().length >= 3) {
-// document.getElementById("suka").innerHTML = expiration.toString().length
-pay();
-} else {
-// document.getElementById("suka").innerHTML = 3
-}
+	if (card_number.toString().length >= 10 && expiration.toString().length >= 4 && cvc.toString().length >= 3) {
+		pay();
+	}
 }
 
 function pay() {
-var card_number = document.getElementById("cardnumber").value;
-var expiration = document.getElementById("expirationdate").value;
-var cvc = document.getElementById("securitycode").value;
+	var card_number = document.getElementById("cardnumber").value;
+	var expiration = document.getElementById("expirationdate").value;
+	var cvc = document.getElementById("securitycode").value;
 
-document.getElementById("cardcheck").innerHTML = card_number;
-document.getElementById("expcheck").innerHTML = expiration;
-document.getElementById("cvccheck").innerHTML = cvc;
+	document.getElementById("cardcheck").innerHTML = card_number;
+	document.getElementById("expcheck").innerHTML = expiration;
+	document.getElementById("cvccheck").innerHTML = cvc;
 }
 
 </script>
 </body>
-</html.
+</html>
