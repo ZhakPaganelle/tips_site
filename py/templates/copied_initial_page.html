@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Благодарность</title>
+<style>
+
+body {
+   margin: auto;
+   text-align: center;
+   }
+   
+#context {
+	text-align: center;
+	position: relative;
+	width: 376px;
+	height: 198px;
+
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(bryan-papazov-StDwbfM6Oy0-unsplash.jpg);
+}
+
+#contractor {
+	position: relative;
+	height: 161.83px;
+	
+	
+}
+
+#avatar {
+	border-width: 2px;
+	border-color: white; 
+	border-radius: 50%;
+	position: relative;
+	height: 109px;
+	top: -63px;
+
+	background: url(.jpg);
+	border: 1.91717px solid #FFFFFF;
+	box-sizing: border-box;
+}
+
+#name {
+	position: relative;
+	height: 15px;
+	top: -70px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	line-height: 15px;
+}
+
+#rating {
+	position: relative;
+	width: 64px;
+	height: 9.83px;
+	top: 255px;
+}
+
+.star{
+
+}
+
+#acceptable{
+	position: relative;
+	height: 99px;
+	top: 45px;
+}
+
+#lemon {
+	position: relative;
+	width: 80px;
+	height: 80px;
+	
+	top: 45px;
+
+	background: url(Priemlemo AVA.png);
+}
+
+#acceptable_txt {
+	position: relative;
+	height: 15px;
+	
+	top: 39px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 200;
+	font-size: 15px;
+	line-height: 15px;
+	color: #000000;
+}
+
+[placeholder] {
+	text-align: center;
+	}
+	
+	[placeholder]:focus::-webkit-input-placeholder {
+    transition: text-indent 0.4s 0.4s ease; 
+    text-indent: -200%;
+	text-align: center;
+    opacity: 1;
+	}
+
+#pay_sum {
+    border:none;
+    border-bottom: 1px solid #1890ff;
+    padding: 5px 10px;
+    outline: none;
+    }
+
+#payment {
+	position: relative;
+	text-align: center;
+	
+	height: 15px;
+	top: 155px;
+} 
+
+#card_pay {
+  background-color: rgba(251, 251, 251, 0.8);
+  color: #ffb242;
+  margin-top: 20px;
+  margin-left: 15px;
+  width: 150px;
+  border-radius: 8px;
+  height: 42px;
+  font-size: 12px;
+  font-family: lato, 'helvetica-light', 'sans-serif';
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="contractor">
+	<img id="context" src={{ background }}>
+	<br>
+	<img id="avatar" src={{ avatar }}>
+	<p id="name">{{ name}}<p>
+	<div id="rating">
+		<img class="star" id="star1" src="">
+		<img class="star" id="star2" src="">
+		<img class="star" id="star3" src="">
+		<img class="star" id="star4" src="">
+		<img class="star" id="star5" src="">
+	</div>
+</div>
+
+<div id="payment">
+	<input id="pay_sum" placeholder="Размер благодарности" onkeyup="count_comission()" onchange="count_comission()" type="text" inputmode="numeric" autocomplete="off" maxlength="5">
+	<br>
+	<button id="card_pay" onclick="pay()">Оплатить картой</button>
+	<div id="com">
+		<input type="checkbox" class="check" id="comission_check">
+	<label id="comission_value" width="100">Я согласен оплатить транзакционные <br>
+		издержки (0 руб.), благодарность будет <br>
+		полностью зачислена получателю.</label>
+	</div>
+	<p id="check_pay"></p>
+	<div id="acceptable">
+		<img id="lemon" src="https://framerusercontent.com/projects/hd6FO17cLmXBcvCQzNOm/assets/512/9MQyxaU7YcS8pwakQ8YTBjBXw.png?Expires=1613290317&Key-Pair-Id=APKAIDY47RVYVKGA6NJQ&Signature=DobhXjEGHZ25w6xSvtDDtWIS4WO8YEpLQAqAuLFA6xLsx4N6TutlPEPinJVl5omhPYT2b62sxtr2t2LbAgts0KqMRZsIAC44kr~znAxaqdjn~oL7mQbsOhfzyQPONy7fBnTRHGaLLzBOXeUQY9gyJwU9Hws0VkKO4Z7eu~fW~1VVZnn-egzYymKJxODVzOkmkrGjksG3tiJT9hoEEFLShlqomHCzRrwavVeZwvOKEx1PFeSnCjFfzUp04lPOzI7vwq15A524nWIgtTrDGlKcFdWYRxM3gp~lOXZ5c9algE0-L4HQoKhP36KKpIulW5Qk-ytd1U0nKbQ3z7qKZK42pw__">
+		<p id="acceptable_txt">Приемлемо</p>
+	</div>
+</div>
+
+<script>
+function count_comission() {
+	var value = document.getElementById("pay_sum").value
+	var com = (value*0.015).toFixed(2);  // Change to query
+
+	document.getElementById("comission_value").innerHTML = "Я согласен оплатить транзакционные <br/> издержки (" + com + " руб.), благодарность будет <br/>полностью зачислена получателю.";
+	document.getElementById("pay_sum").innerHTML = value
+	return com
+}	
+
+function pay() {
+	var comission_to_pay = 0;
+	
+	if (document.getElementById("comission_check").checked){
+		comission_to_pay = count_comission()
+	};
+	
+	var val = document.getElementById("pay_sum").value;
+	var pay_sum = Number(val) + Number(comission_to_pay);
+	
+	document.getElementById("check_pay").innerHTML = pay_sum	// Change to query
+}
+
+</script>
+</body>
+</html>
