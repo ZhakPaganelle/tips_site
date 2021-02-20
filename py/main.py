@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from flask import Flask, request, render_template
+from flask import Flask, jsonify, request, render_template, make_response
 
 
 def renew_db():
@@ -66,8 +66,17 @@ def career():
 def feedback():
     return 'Feedback Page'
 
-@app.route('/pay/')
-def pay():
+@app.route('/comission/', methods=['POST'])
+def get_comission():
+    value = request.form.get('value')
+    comission = 50
+
+    if value:
+        comission += int(value)*0.015
+    return make_response(str(comission))
+            
+@app.route('/input_sum/')
+def input_sum():
     receiver_id = request.args.get('receiver_id')
     #receiver = df.iloc[[str(receiver_id)]]
     #print(receiver)
@@ -76,6 +85,11 @@ def pay():
     avatar = df.at[int(receiver_id), 'avatar']
     background = df.at[int(receiver_id), 'background']
     return render_template('copied_initial_page.html', name=name, card=card, avatar=avatar, background=background)
+
+@app.route('/pay/')
+def pay():
+    # in_full=0 - param 
+    return ')'
 
 if __name__ == '__main__':
     df = renew_db()

@@ -137,6 +137,14 @@ body {
   cursor: pointer;
 }
 
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
 
 </style>
 </head>
@@ -158,13 +166,13 @@ body {
 </div>
 
 <div id="payment">
-	<input id="pay_sum" placeholder="Размер благодарности" onkeyup="count_comission()" onchange="count_comission()" type="text" inputmode="numeric" autocomplete="off" maxlength="5">
+	<input id="pay_sum" type="number" step="50" placeholder="Размер благодарности" onkeyup="count_comission()" onchange="count_comission()" type="text" inputmode="numeric" autocomplete="off" maxlength="5">
 	<br>
 	<button id="card_pay" onclick="pay()">Оплатить картой</button>
 	<div id="com">
 		<input type="checkbox" class="check" id="comission_check">
 	<label id="comission_value" width="100">Я согласен оплатить транзакционные <br>
-		издержки (0 руб.), благодарность будет <br>
+		издержки (50 руб.), благодарность будет <br>
 		полностью зачислена получателю.</label>
 	</div>
 	<p id="check_pay"></p>
@@ -177,24 +185,43 @@ body {
 <script>
 function count_comission() {
 	var value = document.getElementById("pay_sum").value
-	var com = (value*0.015).toFixed(2);  // Change to query
+	//var com = (value*0.015).toFixed(2);  // Change to query
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/comission/');
 
-	document.getElementById("comission_value").innerHTML = "Я согласен оплатить транзакционные <br/> издержки (" + com + " руб.), благодарность будет <br/>полностью зачислена получателю.";
-	document.getElementById("pay_sum").innerHTML = value
-	return com
+	
+	var data = new FormData();
+	data.append('value', value)
+	xhr.send(data);
+	
+	//var com = xhr.status;
+	xhr.onload = function () {
+	  //const data = JSON.parse(xhr.responseText);
+	  var com = xhr.responseText
+	  //alert(com)
+	  document.getElementById("comission_value").innerHTML = "Я согласен оплатить транзакционные <br/> издержки (" + com + " руб.), благодарность будет <br/>полностью зачислена получателю.";
+	  document.getElementById("pay_sum").innerHTML = value
+	  return com
+	};
+
+	
 }	
 
 function pay() {
-	var comission_to_pay = 0;
+	var comission_included = 0;
 	
 	if (document.getElementById("comission_check").checked){
-		comission_to_pay = count_comission()
+		comission_included = 1;
 	};
 	
 	var val = document.getElementById("pay_sum").value;
-	var pay_sum = Number(val) + Number(comission_to_pay);
+	var pay_sum = Number(val);
+	const urlParams = new URLSearchParams(window.location.search);
+	const receiver_id = urlParams.get('receiver_id');
+	link = "/pay?receiver_id=" + receiver_id + "&sum=" + pay_sum + "&comission_included=" + comission_included
 	
-	document.getElementById("check_pay").innerHTML = pay_sum	// Change to query
+	window.location.href = link
 }
 
 </script>
