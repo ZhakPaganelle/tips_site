@@ -207,12 +207,41 @@ function count_comission() {
 
 }	
 
-
 function pay() {
-	var comission_included = 0;
+	//alert()
+	var comission_included = 1;
 	
 	if (document.getElementById("comission_check").checked){
-		comission_included = 1;
+		comission_included = 0;
+	};
+	
+	var val = document.getElementById("pay_sum").value;
+	var payment_sum = Number(val);
+	
+	const urlParams = new URLSearchParams(window.location.search);
+	const receiver_id = urlParams.get('receiver_id');
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/transfer/');
+
+	var data = new FormData();
+
+	data.append('payment_sum', payment_sum)
+	data.append('receiver_id', receiver_id)
+	data.append('comission_included', comission_included)
+
+	xhr.send(data);
+
+	xhr.onload = function () {
+		window.location.href = '/card_payment_form/'
+	};
+}
+
+function pay_send_to_card() {
+	var comission_included = 1;
+	
+	if (document.getElementById("comission_check").checked){
+		comission_included = 0;
 	};
 	
 	var val = document.getElementById("pay_sum").value;

@@ -1,6 +1,16 @@
+import re
+import base64
+import hashlib
 import requests
 import pandas as pd
 from flask import Flask, jsonify, request, render_template, make_response
+
+
+TEST_ROOT_LINK = 'https://test.best2pay.net/'
+SECTOR = 2532
+REFERENCE = 1
+DESCRIPTION = 'gratitude'
+PASSWORD = 'test'
 
 
 def renew_db():
@@ -118,6 +128,77 @@ def make_payment():
     print(receiver_card, value, comission_included, payer_card, exp, cvc)
     
     return make_response(')')
+
+
+@app.route('/transfer/', methods=['POST'])
+def transfer():    
+    payment_sum = int(request.form.get('payment_sum'))
+    comission_included = int(request.form.get('comission_included'))
+    receiver_id = request.form.get('receiver_id')
+    card2 = df.at[int(receiver_id), 'card']
+
+    while ' ' in card2:
+        card2 = card2.replace(' ' , '')
+
+    fee_value = get_comission(payment_sum)
+    if comission_included:
+        payment_sum -= fee_value
+
+    order_id = register_order(payment_sum)
+    print(order_id)
+    transfer_signature = get_signature(str(SECTOR), str(order_id), str(card2), PASSWORD)
+
+    transfer_params = {
+        'sector': str(SECTOR),
+        'id': str(order_id),
+        'card2': str(card2),
+        'amount': str(payment_sum),
+        'fee_value': str(fee_value),
+        'signature': transfer_signature
+    }
+    print(transfer_params)
+
+    transfer_url = TEST_ROOT_LINK + 'webapi/Purchase'
+    transfer_req = requests.post(url=transfer_url, params=transfer_params)
+    with open('./templates/card_payment_form.html', 'w', encoding='utf-8') as card_payment_form:
+        card_payment_form.write(transfer_req.text)
+
+    print(transfer_req.text)
+
+    return make_response(')')
+
+
+@app.route('/card_payment_form/')
+def card_payment_form():
+    return render_template('card_payment_form.html')
+
+
+def register_order(sum_receive):
+    register_signature = get_signature(str(SECTOR), str(int(sum_receive) * 100), '643', PASSWORD)
+
+    register_params = {
+        'sector': SECTOR,
+        'amount': int(sum_receive) * 100,
+        'currency': 643,
+        'reference': REFERENCE,
+        'description': DESCRIPTION,
+        'signature': register_signature
+    }
+    # print(register_params)
+    register_url = TEST_ROOT_LINK + 'webapi/Register'
+    register_req = requests.post(url=register_url, params=register_params)
+    # print(register_req.text)
+    order_id = re.findall(r'<id>(.*)</id>', register_req.text)[0]
+
+    return order_id
+
+
+def get_signature(*args):
+    string = (''.join(args)).encode('utf-8')
+    m5 = hashlib.md5(string).hexdigest().encode('utf-8')
+    signature = base64.b64encode(m5).decode('utf-8')
+
+    return signature
 
 
 def count_income_payment(value, comission_included):
