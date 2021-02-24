@@ -140,6 +140,10 @@ def transfer():
     while ' ' in card2:
         card2 = card2.replace(' ' , '')
 
+    # Delete
+    card2 = '2200200111114591'
+    # Delete
+
     fee_value = get_comission(payment_sum)
     if comission_included:
         payment_sum -= fee_value
@@ -150,7 +154,7 @@ def transfer():
 
     transfer_params = {
         'sector': str(SECTOR),
-        'id': str(order_id),
+        'id': int(str(order_id)),
         'card2': str(card2),
         'amount': str(payment_sum),
         'fee_value': str(fee_value),
