@@ -57,22 +57,22 @@ def count_comission(payment):
     return r.text
 
 
-app = Flask(__name__)
+applicationlication = Flask(__name__)
 
 
-@app.route('/')
+@application.route('/')
 def index():
     return 'Home Page'
 
-@app.route('/career/')
+@application.route('/career/')
 def career():
     return 'Career Page'
 
-@app.route('/feedback/')
+@application.route('/feedback/')
 def feedback():
     return 'Feedback Page'
 
-@app.route('/comission/', methods=['POST'])
+@application.route('/comission/', methods=['POST'])
 def send_comission():
     value = request.form.get('value')
     comission = get_comission(value)
@@ -88,7 +88,7 @@ def get_comission(value):
     return comission
 
             
-@app.route('/input_sum/')
+@application.route('/input_sum/')
 def input_sum():
     global df
     
@@ -102,12 +102,13 @@ def input_sum():
     background = df.at[int(receiver_id), 'background']
     return render_template('copied_initial_page.html', name=name, card=card, avatar=avatar, background=background)
 
-@app.route('/pay/')
+
+@application.route('/pay/')
 def pay():
     return render_template('card_payment.html')
 
 
-@app.route('/make_payment/', methods=['POST'])
+@application.route('/make_payment/', methods=['POST'])
 def make_payment():
     receiver_id = request.form.get('receiver_id')
     receiver_card = df.at[int(receiver_id), 'card']
@@ -130,7 +131,7 @@ def make_payment():
     return make_response(')')
 
 
-@app.route('/transfer/', methods=['POST'])
+@application.route('/transfer/', methods=['POST'])
 def transfer():    
     payment_sum = int(request.form.get('payment_sum'))
     comission_included = int(request.form.get('comission_included'))
@@ -154,7 +155,7 @@ def transfer():
 
     transfer_params = {
         'sector': str(SECTOR),
-        'id': int(str(order_id)),
+        'id': str(order_id),
         'card2': str(card2),
         'amount': str(payment_sum),
         'fee_value': str(fee_value),
@@ -162,7 +163,7 @@ def transfer():
     }
     print(transfer_params)
 
-    transfer_url = TEST_ROOT_LINK + 'webapi/Purchase'
+    transfer_url = TEST_ROOT_LINK + 'webapi/P2PTransfer'
     transfer_req = requests.post(url=transfer_url, params=transfer_params)
     with open('./templates/card_payment_form.html', 'w', encoding='utf-8') as card_payment_form:
         card_payment_form.write(transfer_req.text)
@@ -172,7 +173,7 @@ def transfer():
     return make_response(')')
 
 
-@app.route('/card_payment_form/')
+@application.route('/card_payment_form/')
 def card_payment_form():
     return render_template('card_payment_form.html')
 
@@ -226,7 +227,6 @@ def count_receiver_payment(value, comission_included):
     
         
 
-
 def collect_gratitude(sum_receive, payer_card, exp, cvc):
     pass
 
@@ -237,5 +237,5 @@ def pay_gratitude(sum_pay, receiver_card):
 
 if __name__ == '__main__':
     df = renew_db()
-    #print(df.iloc[[0]])
-    app.run()
+    # print(df.iloc[[0]])
+    application.run()
