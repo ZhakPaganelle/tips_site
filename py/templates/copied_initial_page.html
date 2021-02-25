@@ -8,16 +8,14 @@
 <style>
 
 body {
-   margin: auto;
    text-align: center;
    }
    
 #context {
 	text-align: center;
 	position: relative;
-	width: 376px;
-	height: 198px;
-
+	height: 25vh;
+	
 	background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(bryan-papazov-StDwbfM6Oy0-unsplash.jpg);
 }
 
@@ -30,23 +28,21 @@ body {
 	border-color: white; 
 	border-radius: 50%;
 	position: relative;
-	height: 109px;
-	top: -63px;
+	height: 15vh;
+	top: -10vh;
 
-	background: url(.jpg);
-	border: 1.91717px solid #FFFFFF;
+	border: 2px solid #FFFFFF;
 	box-sizing: border-box;
 }
 
 #name {
 	position: relative;
-	height: 15px;
-	top: -70px;
+	top: -10vh;
 
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 20px;
+	font-size: 2vh;
 	line-height: 15px;
 }
 
@@ -68,10 +64,7 @@ body {
 
 #lemon {
 	position: relative;
-	width: 80px;
-	height: 80px;
-		
-	background: url(Priemlemo AVA.png);
+	width: 7vh;
 }
 
 #acceptable_txt {
@@ -103,13 +96,18 @@ body {
     border:none;
     border-bottom: 1px solid #1890ff;
     padding: 5px 10px;
+	font-size: 1.5vh;
     outline: none;
     }
+
+#com{
+	font-size: 1.4vh;
+}
 
 #payment {
 	position: relative;
 	text-align: center;
-	
+	top: -7vh;
 } 
 
 #card_pay {
@@ -117,10 +115,10 @@ body {
   color: #ffb242;
   margin-top: 20px;
   margin-left: 15px;
-  width: 150px;
+  width: 40vw;
   border-radius: 8px;
-  height: 42px;
-  font-size: 12px;
+  height: 5vh;
+  font-size: 1.5vh;
   font-family: lato, 'helvetica-light', 'sans-serif';
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -129,6 +127,7 @@ body {
   border: none;
   cursor: pointer;
 }
+
 
 input[type='number'] {
     -moz-appearance:textfield;
@@ -168,7 +167,6 @@ input::-webkit-inner-spin-button {
 		издержки (50 руб.), благодарность будет <br>
 		полностью зачислена получателю.</label>
 	</div>
-	<p id="check_pay"></p>
 </div>
 	<div id="acceptable">
 		<img id="lemon" src="/static/PRIEMLEMO_text.jpeg">
