@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<link rel="shortcut icon" href="/static/PRIEMLEMO_ava.png" type="image/png">
+<meta charset="utf-8">
+<title>Благодарность</title>
+<style>
+
+body {
+   text-align: center;
+   }
+  
+ #context {
+	text-align: center;
+	position: relative;
+	height: 25vh;
+	
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(bryan-papazov-StDwbfM6Oy0-unsplash.jpg);
+}
+
+#contractor {
+	position: relative;
+}
+
+#avatar {
+	border-width: 2px;
+	border-color: white; 
+	border-radius: 50%;
+	position: relative;
+	height: 15vh;
+	top: -10vh;
+
+	border: 1.91717px solid #FFFFFF;
+	box-sizing: border-box;
+}
+
+#name {
+	position: relative;
+	top: -10vh;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 2vh;
+	line-height: 15px;
+}
+
+#rating {
+	position: relative;
+	width: 64px;
+	height: 9.83px;
+	top: 255px;
+}
+
+.star{
+
+}
+
+#qr_div {
+	position: relative;
+	top: -10vh;
+}
+
+#qr {
+	height: 25vh;
+}
+
+#acceptable{
+	position: relative;
+}
+
+#lemon {
+	position: relative;
+	width: 7vh;
+}
+
+#go_to_payment_form {
+  background-color: rgba(251, 251, 251, 0.8);
+  color: #ffb242;
+  margin-top: 20px;
+  margin-left: 15px;
+  width: 40vw;
+  border-radius: 8px;
+  height: 5vh;
+  font-size: 1.5vh;
+  font-family: lato, 'helvetica-light', 'sans-serif';
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+#button_to_payment {
+	position: relative;
+	top: -7vh;
+}
+
+ </style>
+</head>
+
+<body>
+
+<div id="contractor">
+	<img id="context" src="/static/users/{{ user_background }}">
+	<br>
+	<img id="avatar" src="/static/users/{{ avatar }}">
+	<p id="name">{{ name }}<p>
+	<!--
+	<div id="rating">
+		<img class="star" id="star1" src="">
+		<img class="star" id="star2" src="">
+		<img class="star" id="star3" src="">
+		<img class="star" id="star4" src="">
+		<img class="star" id="star5" src="">
+	</div>
+	-->
+</div>
+
+<div id="qr_div">
+	<img id="qr" src="/static/users/{{ qr }}">
+</div>
+
+<div id="button_to_payment">
+	<button id="go_to_payment_form" onclick="go_to_pay()">Перейти к оплате</button>
+</div>
+
+<div id="acceptable">
+		<img id="lemon" src="/static/PRIEMLEMO_text.jpeg">
+		<!-- <p id="acceptable_txt">Приемлемо</p> -->
+</div>
+
+<script>
+function go_to_pay() {
+	link = "/input_sum/?receiver_id={{ receiver_id }}"
+	
+	window.location.href = link
+}
+</script>
+
+</body>
+</html>

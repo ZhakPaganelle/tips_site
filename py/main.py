@@ -57,7 +57,7 @@ def count_comission(payment):
     return r.text
 
 
-applicationlication = Flask(__name__)
+application = Flask(__name__)
 
 
 @application.route('/')
@@ -101,6 +101,19 @@ def input_sum():
     avatar = df.at[int(receiver_id), 'avatar']
     background = df.at[int(receiver_id), 'background']
     return render_template('copied_initial_page.html', name=name, card=card, avatar=avatar, background=background)
+
+
+@application.route('/users/<receiver_id>')
+def user_profile(receiver_id):
+    global df
+    
+    df = renew_db()
+    
+    name = df.at[int(receiver_id), 'name']
+    avatar = df.at[int(receiver_id), 'avatar']
+    background = df.at[int(receiver_id), 'background']
+    qr = df.at[int(receiver_id), 'qr']
+    return render_template('user_profile.html', name=name, avatar=avatar, user_background=background, qr=qr, receiver_id=receiver_id)
 
 
 @application.route('/pay/')
@@ -151,14 +164,15 @@ def transfer():
 
     order_id = register_order(payment_sum)
     print(order_id)
-    transfer_signature = get_signature(str(SECTOR), str(order_id), str(card2), PASSWORD)
+    # , str(order_id)
+    transfer_signature = get_signature(str(SECTOR), str(card2), PASSWORD)
 
     transfer_params = {
         'sector': str(SECTOR),
-        'id': str(order_id),
+        # 'id': str(order_id),
         'card2': str(card2),
-        'amount': str(payment_sum),
-        'fee_value': str(fee_value),
+        'amount': str(int(payment_sum*100)),
+        'fee_value': str(int(fee_value*100)),
         'signature': transfer_signature
     }
     print(transfer_params)
