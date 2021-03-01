@@ -115,22 +115,119 @@ def new_reg():
     login = request.form.get('login')
     password = request.form.get('password')
     name = request.form.get('name')
+    while 'Ё' in name:
+        name = name.replace('Ё', 'Е')
+    while 'ё' in name:
+        name = name.replace('ё', 'е')
+        
     login_signature = get_signature(login)
     
     for receiver_id, person in df.iterrows():
         if person['login_signature'] == login_signature:
             return make_response('error')
 
-    usr_id = reg_b2p(name)
+    usr_id = len(df)
+    client_ref = reg_b2p(name)
 
     with open('db.csv', 'a', encoding='utf-8') as df:
-        df.write(f'{usr_id},{login},{password},{login_signature},{name},default_ava.png,default_back.png\n')
+        df.write(f'{usr_id},{login},{password},{login_signature},{name},{client_ref},default_ava.png,default_back.png\n')
 
     return make_response(login_signature)
 
 
 def reg_b2p(name):
-    return 1
+    link = TEST_ROOT_LINK + 'webapi/b2puser/Register'
+    first_name, last_name = name.split(' ')
+    signature = get_signature(str(SECTOR), first_name, last_name, PASSWORD)
+
+    params = {
+        'sector': SECTOR,
+        'first_name': first_name,
+        'last_name': last_name,
+        'signature': signature
+        }
+
+    r = requests.post(url=link, params=params)
+    client_ref = re.findall(r'<client_ref>(.*)</client_ref>', rtext)[0]
+    return client_ref
+
+
+@application.route('/set_phone/', methods=['post'])
+def set_phone():
+    login_signature = request.form.get('login_signature')
+
+    for receiver_id, person in df.iterrows():
+        if person['login_signature'] == login_signature:
+            ref = person['client_ref']
+            break
+    html_set_phone = set_phone_req(ref)
+    print(html_set_phone)
+
+
+def set_phone_req(client_ref):
+    link = TEST_ROOT_LINK + 'webapi/b2puser/SetPhone'
+    signature = get_signature(str(SECTOR), client_ref, PASSWORD)
+
+    params = {
+        'sector': SECTOR,
+        'client_ref': client_ref,
+        'signature': signature
+        }
+
+    r = requests.post(url=link, params=params)
+    return r.text
+
+
+@application.route('/pay_in/', methods=['post'])
+def get_gratitude():
+    client_ref = request.form.get('client_ref')
+    amount = request.form.get('amount')
+    fee = request.form.get('fee')
+
+    html_pay_in = pay_in(client_ref, amount, fee)
+    print(html_pay_in)
+
+
+def pay_in(client_ref, amount, fee):
+    link = TEST_ROOT_LINK + 'webapi/b2puser/PayIn'
+    amount = str(int(float(amount)*100))
+    fee = str(int(float(fee)*100))
+    signature = get_signature(str(SECTOR), client_ref, amount, '643', PASSWORD)
+
+    params = {
+        'sector': SECTOR,
+        'amount': amount,
+        'fee': fee,
+        'to_client_ref': client_ref,
+        'signature': signature
+        }
+    
+    r = requests.post(url=link, params=params)
+    return r.text
+
+
+def send_gratitude():
+    client_ref = request.form.get('client_ref')
+    amount = request.form.get('amount')
+
+    html_pay_out = pay_out(client_ref, amount)
+    print(html_pay_out)
+
+
+def pay_out(client_ref, amount):
+    link = TEST_ROOT_LINK + 'webapi/b2puser/PayOut'
+    amount = str(int(float(amount)*100))
+    signature = get_signature(str(SECTOR), client_ref, amount, '643', PASSWORD)
+
+    params = {
+        'sector': SECTOR,
+        'amount': amount,
+        'from_client_ref': client_ref,
+        'signature': signature
+        }
+    
+    r = requests.post(url=link, params=params)
+    return r.text
     
 
 @application.route('/comission/', methods=['POST'])
@@ -304,5 +401,4 @@ def count_receiver_payment(value, comission_included):
 
 if __name__ == '__main__':
     df = renew_db()
-    # print(df.iloc[[0]])
     application.run()
