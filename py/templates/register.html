@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        #register_form {
+            position: relative;
+            top: 40vh;
+        }
+    </style>
+</head>
+<body>
+
+<div id="register_form">
+    <input id="f_name" placeholder="Имя">
+    <br>
+    <br><input id="l_name" placeholder="Фамилия">
+    <br>
+    <br><input id="login" placeholder="Логин">
+    <br>
+    <br>
+    <input id="password" type="password" placeholder="Пароль">
+    <br>
+    <br>
+    <input id="password_again" type="password" placeholder="Снова пароль">
+    <br>
+    <br>
+    <button id="signin" onclick="sign_in()">Зарегистрироваться</button>
+</div>
+
+<script>
+    function sign_in() {
+        var login = document.getElementById("login").value
+        var password = document.getElementById("password").value
+        var password_again = document.getElementById("password_again").value
+        var f_name = document.getElementById("f_name").value
+        var l_name = document.getElementById("l_name").value
+        var full_name = f_name + ' ' + l_name
+
+        if (password != password_again) {
+            alert("Пароли не совпадают")
+            return
+        }
+
+        var xhr = new XMLHttpRequest();
+	    xhr.open('POST', '/new_reg/');
+
+	    var data = new FormData();
+
+        data.append('login', login)
+        data.append('password', password)
+        data.append('name', full_name)
+
+        xhr.send(data);
+
+        xhr.onload = function () {
+            if (xhr.response == "error") {
+                alert("Неправильный логин или пароль")
+            } else {
+				var link = '/acc/?user=' + xhr.response
+		        window.location.href = link
+		    }
+	    };
+
+    }
+</script>
+
+</body>
+</html>

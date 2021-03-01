@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,14 +20,18 @@
 
 
 
+
+
+
+
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<title>Ошибка
+<title>Перевод средств с карты на карту
 </title>
 <script type="text/javascript">
     var language = 'RUSSIAN';
-    var cur = 'руб.';
+    var cur = ' руб.';
     var currencySymbol = 'icon-rouble';
 </script>
 <script type="text/javascript" src="/webapi/template/common/scripts/jquery-1.11.3.min.js"></script>
@@ -35,12 +40,766 @@
 <script type="text/javascript" src="/webapi/template/common/scripts/i18n/i18n.js"></script>
 <script type="text/javascript" src="/webapi/template/common/scripts/valday/best2pay-functions.js"></script>
 <script type="text/javascript" src="/webapi/template/common/scripts/valday/general.js"></script>
+<script type="text/javascript">
+    var binFeeValues = {
+        
+    };
+
+    var feevalues = {
+        
+        'VISA_VISA': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_VISA_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_MASTERCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_MASTERCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_MAESTRO': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_MAESTRO_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_MIR': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_MIR_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_UZCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_UZCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_JCB': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'VISA_JCB_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_VISA': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_VISA_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_MASTERCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_MASTERCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_MAESTRO': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_MAESTRO_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_MIR': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_MIR_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_UZCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_UZCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_JCB': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MASTERCARD_JCB_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_VISA': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_VISA_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_MASTERCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_MASTERCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_MAESTRO': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_MAESTRO_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_MIR': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_MIR_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_UZCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_UZCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_JCB': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAESTRO_JCB_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_VISA': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_VISA_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_MASTERCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_MASTERCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_MAESTRO': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_MAESTRO_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_MIR': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_MIR_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_UZCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MIR_JCB': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_VISA': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_VISA_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_MASTERCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_MASTERCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_MAESTRO': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_MAESTRO_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_MIR': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_MIR_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_UZCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_UZCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_JCB': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'UZCARD_JCB_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_VISA': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_VISA_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_MASTERCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_MASTERCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_MAESTRO': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_MAESTRO_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_MIR': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_MIR_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_UZCARD': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_UZCARD_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_JCB': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'JCB_JCB_INT': {
+            
+            'PERCENT': 0.0,
+            
+            'FIX': 0,
+            
+            'NOT_LESS': false,
+            
+        },
+        
+        'MAX_FEE_ACTIVE':false,
+        
+        'MAX_FEE_AMOUNT':0,
+        
+    };
+
+    var notifies = {
+        
+    };
+
+    var blackBins = [
+        
+    ];
+
+    var blackBins2 = [
+        
+    ];
+
+    var limits = {
+        
+        'min': 100,
+        'max': 15000000
+        
+    };
+
+    var sectorBinList = undefined;
+    
+
+    var CONFIRM_FUNDS = 'Подтвердите операцию перевода средств на карту физического лица на сумму: ';
+    var FEE = 'с комиссией: ';
+    var CONTINUE = 'Продолжить';
+    var TRANSFER = 'Перевести';
+    var ORDER_FEE = undefined;
+    
+    var feePaidByReceiver = false;
+    
+    var algorithmAvailable =
+    false &&
+    ORDER_FEE == undefined || feePaidByReceiver;
+    var customAdditionalSubmitHandler;
+    
+    var countryCommission;
+    var cardsByTokens = undefined;
+</script>
+<script type="text/javascript" src="/webapi/template/common/scripts/valday/bankBins.js"></script>
+<script type="text/javascript" src="/webapi/template/common/scripts/valday/p2p/functions.js"></script>
+<script type="text/javascript" src="/webapi/template/common/scripts/3ds2/3ds2.js"></script>
 <script type="text/javascript" src="/webapi/template/common/scripts/translit/scripts.js"></script>
 <script type="text/javascript" src="/webapi/template/common/scripts/chrome/isChrome.js"></script>
     <link rel="stylesheet" href="/webapi/template/common/css/valday/bootstrap.min.css"/>
     <link rel="stylesheet" href="/webapi/template/common/css/valday/b2p-style.css"/>
     <link rel="stylesheet" href="/webapi/template/common/css/valday/b2p-style-redirect.css"/>
-    <link rel="stylesheet" href="/webapi/template/common/css/valday/notify/notify-style-redirect.css"/>
+    <link rel="stylesheet" href="/webapi/template/common/css/valday/p2p/p2p-style-redirect.css"/>
     <script type="text/javascript" src="/webapi/template/common/scripts/i18n/i18n.js"></script>
 </head>
 <body data-width="360" onload="displayBlock();">
@@ -48,33 +807,252 @@
     <div class="wrapper">
         <noscript>
             <div class="row page-header">
-                <div class="container header error">
+                <div class="container error">
                     Ваш браузер не поддерживает JavaScript. Пожалуйста, включите поддержку JavaScript и обновите страницу.
 Как включить поддержку JavaScript: <a href="http://best2pay.ru/question-277" title="Как включить поддержку JavaScript">http://best2pay.ru/question-277</a>
                 </div>
             </div>
         </noscript>
-        <div id="popup_loader"></div>
         <div class="container-fluid" id="screen">
-            <div class="row header vertical-align-center">
-                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 header-logo text-left">
-                    
-                </div>
-                
-            </div>
-            <div id="content">
-                <div id="content-data">
-                    <div class="message-sent-result">
-                        <img src="/webapi/template/common/img/valday/error.svg">
-                        <div>
-                            <span>Произошла ошибка</span>
-                            <p>Invalid parameter
-                            </p>
+            <div class="header">
+                <div class="row">
+                    <div class="col-md-12 col-xs-4 header-logo text-center vertical-align-center">
+                        
+                    </div>
+                    <div class="col-md-12 col-xs-8 text-center">
+                        <div class="header-desc">
+                            Перевод средств с карты на карту
                         </div>
                     </div>
                 </div>
             </div>
+            <div id="content">
+                <div id="popup_loader">
+                    <div>
+                        <img src="/webapi/template/common/img/valday/spinner.svg" alt=""/>
+                        <span>Производится оплата</span>
+                    </div>
+                </div>
+                <div id="content-data">
+                    <form method="post" action="/webapi/P2PTransfer" id="pageForm">
+                        <input type="hidden" name="request_uuid" value="34ec32e6-179c-44a9-8130-64f1ea1672af"/>
+                        <input type="hidden" name="sector" value="2532"/>
+                        <input type="hidden" name="url" value=""/>
+                        <input type="hidden" name="failurl" value=""/>
+                        <input type="hidden" name="reference" value="47f44b02-569a-48a1-b7a6-424b8eb21785"/>
+                        <input type="hidden" name="url_referer" value=""/>
+                        <input type="hidden" name="action" value="pay"/>
+                        <input type="hidden" name="signature" value="ZWNlZWJjNTUxMTM3NTdmZWQ4NDFiMTA1YmJjZWVmY2Q="/>
+                        
+                        <input type="hidden" name="get_token" value="0"/>
+                        
+                        <input type="hidden" name="cardholder_ip" value="194.85.207.128"/>
+                        <input type="hidden" name="browser_language" id="browser_language"/>
+                        <input type="hidden" name="bits" id="bits"/>
+                        <input type="hidden" name="resolution" id="resolution"/>
+                        <input type="hidden" name="tkn" value="qW31TXIgtLDVj09W/OAi06QOlHJgLzHbRld3hllfPLk="/>
+                        <input id="fee_value" type="hidden" name="fee_value" value=""/>
+                        <input id="time_zone_offset" type="hidden" name="time_zone_offset"/>
+                        
+                        
+                        
+                        
+                        <input type="hidden" name="description" value="P2P Transfer"/>
+                        
+                        <input type="hidden" name="amount" id="amount" value="4850"/>
+                        <input type="hidden" name="countrynum" value="643"/>
+                        
 
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="cardBack">
+                                    <div class="card2 card card-unknown">
+                                        <div id="card-1-bank-logo" class="bank-logo"></div>
+                                        <div class="input-field">
+                                            <label class="card-label">Номер карты плательщика</label>
+                                            <input type="tel" tabindex="1" placeholder="0000 0000 0000 0000" name="pan1" id="cardFrom" class="card-input card-number" required maxlength="22" autocomplete="off"/>
+                                        </div>
+                                        <div class="row" id="date-and-cvv">
+                                            <div class="col-xs-4" style="padding-right: 8px">
+                                                <div class="input-field" id="card-date-container">
+                                                    <label class="card-label">Срок действия</label>
+                                                    <input type="tel" autocomplete="off" id="cardDate" tabindex="2" placeholder="00 / 00" class="card-input card-date" required name="date" clear-name="true" maxlength="7" />
+                                                    <input type="hidden" name="month" id="month" />
+                                                    <input type="hidden" name="year" id="year" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4" style="padding-left: 8px">
+                                                <div class="cvc-tooltip-container">
+                                                    <div class="input-field" id="card-cvv-container">
+                                                        <label class="card-label no-opacity" id="cvv-label">
+                                                            <span id="cvc-label" class="opacity-09">CVC</span>
+                                                            <span id="cvc-tooltip" data-toggle="tooltip" class="no-opacity" data-placement="right" data-animated="fade" data-html="true" title=""
+                                                                  data-original-title='<span id="tooltipSpanCvc">Трехзначный код на обороте карты</span><img src="/webapi/template/common/img/valday/smallCardForTooltip.svg" id="tooltipImgCvc"\>'>
+                                                                
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64"
+     viewBox="0 0 64 64" shape-rendering="geometricPrecision">
+    <defs>
+        <path id="a"
+              d="M24 2.824C12.313 2.824 2.824 12.313 2.824 24c0 11.687 9.489 21.176 21.176 21.176 11.687 0 21.176-9.489 21.176-21.176 0-11.687-9.489-21.176-21.176-21.176zM24 0c13.246 0 24 10.754 24 24S37.246 48 24 48 0 37.246 0 24 10.754 0 24 0zm-2.68 28.235v-1.043c0-1.196.218-2.19.655-2.984.437-.794 1.202-1.614 2.296-2.462 1.3-1.022 2.14-1.816 2.516-2.38.378-.566.566-1.24.566-2.023 0-.913-.306-1.614-.918-2.103-.612-.49-1.492-.734-2.64-.734-1.038 0-2 .147-2.886.44a20.56 20.56 0 0 0-2.59 1.06l-1.378-2.87a14.498 14.498 0 0 1 7.133-1.842c2.142 0 3.842.522 5.1 1.565 1.256 1.044 1.885 2.484 1.885 4.321 0 .816-.12 1.541-.36 2.177a6.24 6.24 0 0 1-1.091 1.818c-.487.576-1.326 1.326-2.517 2.25-1.017.794-1.697 1.451-2.042 1.973-.344.522-.516 1.223-.516 2.104v.733h-3.214zm-.85 5.27c0-1.63.821-2.446 2.463-2.446.804 0 1.418.213 1.842.64.425.426.637 1.028.637 1.806 0 .767-.215 1.374-.645 1.823-.43.448-1.041.672-1.834.672-.793 0-1.402-.219-1.826-.656-.424-.438-.636-1.05-.636-1.839z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(8 8)">
+        <mask id="b" fill="currentColor">
+            <use xlink:href="#a"/>
+        </mask>
+        <use fill="currentColor" fill-rule="nonzero" xlink:href="#a"/>
+        <g fill="currentColor" mask="url(#b)">
+            <path d="M-9-8h64v64H-9z"/>
+        </g>
+    </g>
+</svg>
+                                                            </span>
+                                                        </label>
+                                                        <input type="tel" id="cvc" class="card-input card-cvc" tabindex="3" name="cvc" autocomplete="off" maxlength="3" placeholder="•••" required value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div id="card-1-ps-logo" class="ps-logo">
+                                                    <div class="ps-mir">
+                                                        
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M0.029417383,4 C0.029417383,2.73939394 0.0336198663,1.48282828 0.0252148997,0.222222222 C0.0252148997,0.0727272727 0.058834766,0.0323232323 0.218529131,0.0323232323 C0.995988539,0.0404040404 1.77344795,0.0363636364 2.55090735,0.0363636364 C3.34097421,0.0363636364 3.79484241,0.335353535 4.03438395,1.06666667 C4.37898758,2.13333333 4.69837631,3.2040404 5.03037249,4.27474747 C5.06819484,4.3959596 5.10601719,4.52121212 5.14383954,4.64242424 C5.16485196,4.70707071 5.16485196,4.8040404 5.26991404,4.8 C5.35816619,4.7959596 5.35816619,4.70707071 5.37917861,4.64646465 C5.57249284,4.02020202 5.76580707,3.39393939 5.95491882,2.77171717 C6.12301815,2.22222222 6.286915,1.67272727 6.46341929,1.12727273 C6.63151862,0.593939394 6.9382999,0.181818182 7.54765998,0.0606060606 C7.63591213,0.0444444444 7.72836676,0.0363636364 7.81661891,0.0363636364 C8.64450812,0.0363636364 9.46819484,0.0404040404 10.296084,0.0323232323 C10.443171,0.0323232323 10.4978032,0.0484848485 10.4978032,0.214141414 C10.4893983,2.73131313 10.4936008,5.25252525 10.4978032,7.76969697 C10.4978032,7.91919192 10.4599809,7.95959596 10.304489,7.95959596 C9.58166189,7.95151515 8.86303725,7.94747475 8.14021012,7.95959596 C7.96370583,7.96363636 7.93849093,7.9030303 7.93849093,7.75353535 C7.94269341,6.33939394 7.94269341,4.92525253 7.94269341,3.51111111 L7.94269341,3.38989899 C7.94269341,3.31717172 7.95109838,3.23232323 7.84183381,3.22020202 C7.73677173,3.20808081 7.6947469,3.27272727 7.669532,3.35757576 C7.50563515,3.85858586 7.3417383,4.35959596 7.17784145,4.85656566 C6.85845272,5.83030303 6.53486151,6.8040404 6.21967526,7.78181818 C6.17765043,7.91111111 6.13142311,7.96363636 5.98013372,7.95959596 C5.5052531,7.94747475 5.02617001,7.94747475 4.5512894,7.95959596 C4.40420248,7.96363636 4.3495702,7.91919192 4.30754537,7.78585859 C3.83686724,6.33535354 3.36198663,4.88484848 2.88710602,3.43838384 C2.87029608,3.38181818 2.84928367,3.32121212 2.81986628,3.26868687 C2.7904489,3.21616162 2.73161414,3.2040404 2.67277937,3.22020202 C2.61814709,3.23232323 2.59293219,3.26868687 2.5887297,3.32121212 L2.5887297,3.46262626 C2.5887297,4.88888889 2.58452722,6.31919192 2.59293219,7.74545455 C2.59293219,7.91111111 2.55090735,7.95959596 2.37440306,7.95959596 C1.6599809,7.95151515 0.945558739,7.94747475 0.231136581,7.95959596 C0.058834766,7.96363636 0.029417383,7.90707071 0.029417383,7.75757576 C0.0336198663,6.50505051 0.029417383,5.25252525 0.029417383,4 Z M19.860936,3.9959596 C19.860936,5.24848485 19.8567335,6.5010101 19.8651385,7.75353535 C19.8651385,7.92727273 19.8105062,7.96363636 19.6424069,7.95959596 C18.9279847,7.95151515 18.2135626,7.95151515 17.4991404,7.95959596 C17.3436485,7.95959596 17.2974212,7.92727273 17.3016237,7.77373737 C17.3100287,6.31919192 17.3058262,4.86464646 17.3058262,3.41010101 C17.3058262,3.34545455 17.3268386,3.27272727 17.2806113,3.21212121 C17.2091691,3.12727273 17.0830946,3.17575758 17.0158548,3.32525253 C16.7174785,3.95555556 16.4233047,4.58989899 16.1249284,5.22020202 C15.8097421,5.88282828 15.4987584,6.54141414 15.1793696,7.2 C15.1079274,7.34545455 15.0112703,7.47878788 14.9188157,7.61212121 C14.7465138,7.84646465 14.5237822,7.96767677 14.208596,7.96363636 C13.4227316,7.95151515 12.6410697,7.95555556 11.8552053,7.96363636 C11.7123209,7.96363636 11.6660936,7.93535354 11.6660936,7.78989899 C11.6702961,5.26464646 11.6702961,2.73939394 11.6660936,0.214141414 C11.6660936,0.0686868687 11.7081184,0.0363636364 11.8552053,0.0363636364 C12.5780325,0.0444444444 13.2966571,0.0444444444 14.0194842,0.0363636364 C14.1833811,0.0363636364 14.2296084,0.0727272727 14.2296084,0.234343434 C14.2212034,1.66060606 14.2254059,3.09090909 14.2254059,4.51717172 C14.2254059,4.57777778 14.2254059,4.63838384 14.2338109,4.6989899 C14.2422159,4.75555556 14.2842407,4.77575758 14.338873,4.77575758 C14.4229226,4.77979798 14.4649475,4.73131313 14.4943649,4.66666667 C14.6246418,4.4 14.7591213,4.13333333 14.8893983,3.86666667 C15.3768863,2.88080808 15.8601719,1.8989899 16.34766,0.913131313 C16.4191022,0.767676768 16.5031519,0.626262626 16.591404,0.488888889 C16.7973257,0.181818182 17.0662846,0.0161616162 17.4823305,0.0323232323 C18.2009551,0.0606060606 18.9237822,0.0484848485 19.6466094,0.0363636364 C19.8441261,0.0323232323 19.869341,0.096969697 19.869341,0.262626263 C19.860936,1.5030303 19.860936,2.75151515 19.860936,3.9959596 Z M23.8827125,0.0363636364 C24.8072588,0.0363636364 25.7318052,0.0323232323 26.6563515,0.0363636364 C27.2909265,0.0404040404 27.8498567,0.270707071 28.3163324,0.674747475 C29.043362,1.30505051 29.3753582,2.09292929 29.2787011,3.03838384 C29.2702961,3.13939394 29.2913085,3.25656566 29.1106017,3.25656566 C27.6061127,3.24040404 26.1016237,3.28888889 24.5971347,3.22828283 C23.89532,3.2 23.2313276,3.01010101 22.6219675,2.66666667 C21.6301815,2.10505051 21.0250239,1.27676768 20.8022923,0.18989899 C20.7686724,0.0323232323 20.8485196,0.0323232323 20.9661891,0.0323232323 C21.9369628,0.0404040404 22.9077364,0.0363636364 23.8827125,0.0363636364 Z M25.1266476,3.64444444 L28.9088825,3.64444444 C29.1442216,3.64444444 29.1484241,3.64848485 29.043362,3.84646465 C28.5180516,4.83636364 27.6943649,5.39393939 26.5260745,5.41818182 C25.6645654,5.43838384 24.8030564,5.42222222 23.9415473,5.42222222 C23.6053486,5.42222222 23.6557784,5.4020202 23.6557784,5.70909091 C23.6557784,6.3959596 23.6515759,7.08282828 23.6599809,7.76969697 C23.6599809,7.91515152 23.634766,7.96767677 23.4666667,7.96363636 C22.7396371,7.95555556 22.008405,7.95555556 21.2813754,7.96363636 C21.1468959,7.96363636 21.1006686,7.93535354 21.1006686,7.7979798 C21.1048711,6.47272727 21.1048711,5.14343434 21.1006686,3.81818182 C21.1006686,3.66464646 21.1721108,3.64848485 21.3023878,3.64848485 C22.5757402,3.64444444 23.8490926,3.64444444 25.1266476,3.64444444 Z"
+              id="path-mir"></path>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logos/white/mir">
+            <g id="color/light-gray" transform="translate(1.333333, 12.666667)">
+                <mask id="mask-mir" fill="white">
+                    <use xlink:href="#path-mir"></use>
+                </mask>
+                <use fill="currentColor" xlink:href="#path-mir"></use>
+                <g id="color/white" mask="url(#mask-mir)" fill="currentColor">
+                    <g transform="translate(-1.333333, -12.666667)">
+                        <rect x="0" y="0" width="32" height="32"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+                                                    </div>
+                                                    <div class="ps-mc">
+                                                        
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M13,1.72071624 C12.8964446,1.80217686 12.7951209,1.88609247 12.6960291,1.97246305 C11.0029872,3.44544971 9.93127779,5.6140878 9.93127779,8.03447269 C9.93127779,10.4548576 11.0029872,12.6232725 12.6960291,14.0964823 C12.7951209,14.1828529 12.8964446,14.2665453 13,14.348006 C13.1035554,14.2665453 13.2048791,14.1828529 13.3039709,14.0964823 C14.997236,12.6232725 16.0687222,10.4548576 16.0687222,8.03447269 C16.0687222,5.6140878 14.997236,3.44544971 13.3039709,1.97246305 C13.2048791,1.88609247 13.1035554,1.80217686 13,1.72071624 L13,1.72071624 Z M17.9655273,0 C16.3206922,0 14.7914642,0.49456643 13.5177771,1.34287284 C13.5829456,1.39621281 13.6490068,1.44866006 13.7119436,1.50356229 C15.6049546,3.15040602 16.6902779,5.53084173 16.6902779,8.03447269 C16.6902779,10.5381037 15.6049546,12.9185394 13.7121667,14.5651599 C13.6494532,14.619839 13.5829456,14.6727326 13.5177771,14.7260726 C14.7912411,15.5741558 16.3206922,16.0689454 17.9655273,16.0689454 C22.402788,16.0689454 26,12.4717334 26,8.03447269 C26,3.59698879 22.402788,0 17.9655273,0 Z M12.2880564,14.5651599 C12.35077,14.619839 12.4170544,14.6725094 12.4822229,14.7260726 C11.2087589,15.574379 9.67953098,16.0689454 8.03447269,16.0689454 C3.59698879,16.0689454 0,12.4717334 0,8.03447269 C0,3.59721197 3.59698879,0 8.03447269,0 C9.6793078,0 11.2087589,0.49456643 12.4822229,1.34287284 C12.4170544,1.39621281 12.3512163,1.44866006 12.2880564,1.50356229 C10.3952686,3.15040602 9.30972206,5.53084173 9.30972206,8.03447269 C9.30972206,10.5383268 10.3952686,12.9185394 12.2880564,14.5651599 Z"
+              id="path-mc"></path>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logos/white/mc">
+            <g transform="translate(3.333333, 8.000000)">
+                <mask id="mask-mc" fill="white">
+                    <use xlink:href="#path-mc"></use>
+                </mask>
+                <use fill="currentColor" xlink:href="#path-mc"></use>
+                <g mask="url(#mask-mc)" fill="currentColor">
+                    <g transform="translate(-3.333333, -8.666667)">
+                        <rect x="0" y="0" width="32" height="32"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+                                                    </div>
+                                                    <div class="ps-visa">
+                                                        
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M8.70863636,0.163333333 L11.3348182,0.163333333 L7.43161364,9.16879012 L4.80839394,9.1717284 L2.58889394,1.28091358 C4.163,2.06266667 5.57087879,3.6242716 6.02268939,5.06575309 L6.28126515,6.31624691 L8.70863636,0.163333333 Z M10.7880455,9.17950617 L12.3382803,0.156765432 L14.8175758,0.156765432 L13.2662955,9.17950617 L10.7880455,9.17950617 Z M22.2584242,0.378864198 L21.9223106,2.33437037 L21.7001515,2.23032099 C21.2425909,2.04745679 20.6553939,1.87219753 19.8446439,1.88464198 C18.8739394,1.88464198 18.4247424,2.28562963 18.4247424,2.66069136 C18.4191667,3.08328395 18.9499091,3.36190123 19.8165909,3.77930864 C21.2467727,4.4231358 21.9075,5.20437037 21.8980909,6.23069136 C21.87875,8.10358025 20.1870303,9.31328395 17.5807121,9.31328395 C16.4690455,9.30204938 15.3981515,9.08375309 14.8189697,8.83192593 L15.1669318,6.81212346 L15.4864924,6.95558025 C16.3007273,7.29244444 16.8278106,7.42916049 17.8201212,7.42916049 C18.5327727,7.42916049 19.2973485,7.15279012 19.303447,6.54802469 C19.3081515,6.15308642 18.9835379,5.87101235 18.0185833,5.42888889 C17.078197,4.99730864 15.8323636,4.27397531 15.8461288,2.97750617 C15.8607652,1.2237037 17.5866364,0 20.0363106,0 C20.9976061,0 21.7672348,0.196 22.2584242,0.378864198 Z M28.6160076,0.165407407 L26.7002121,0.165407407 C26.1067424,0.165407407 25.6625985,0.325975309 25.4019318,0.91362963 L21.7198409,9.18244444 L24.3233712,9.18244444 C24.3233712,9.18244444 24.7490455,8.0705679 24.8454015,7.82651852 C25.1299394,7.82651852 27.6588939,7.83032099 28.020447,7.83032099 C28.0946742,8.14609877 28.3222348,9.18244444 28.3222348,9.18244444 L30.6227576,9.18244444 L28.6160076,0.165407407 M25.5589242,5.98093827 C25.7638333,5.46103704 26.5467045,3.45869136 26.5467045,3.45869136 C26.5318939,3.48271605 26.7502197,2.93637037 26.8753258,2.59760494 L27.042947,3.37555556 C27.042947,3.37555556 27.5177576,5.52930864 27.6169015,5.98093827 L25.5589242,5.98093827 Z M4.0295303,0.157802469 C4.56793939,0.177679012 5.00319697,0.348098765 5.15339394,0.919506173 L6.02268939,5.06575309 C5.16837879,2.8971358 3.11040152,1.09234568 0,0.345506173 L0.0317121212,0.157802469 L4.0295303,0.157802469 Z"
+              id="path-visa"></path>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logos/white/visa">
+            <g id="color/medium-gray" transform="translate(0.666667, 11.333333)">
+                <mask id="mask-visa" fill="white">
+                    <use xlink:href="#path-visa"></use>
+                </mask>
+                <use fill="currentColor" xlink:href="#path-visa"></use>
+                <g id="color/white" mask="url(#mask-visa)" fill="currentColor">
+                    <g transform="translate(-0.666667, -11.333333)">
+                        <rect x="0" y="0" width="32" height="32"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="secure">
+                                        <img src="/webapi/template/common/img/valday/secure.svg"/>
+                                        <span>Данные банковской карты будут переданы в&nbsp;зашифрованном&nbsp;виде</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="cardBack">
+                                    <div class="card2 card card-unknown">
+                                        <div id="card-2-bank-logo" class="bank-logo"></div>
+                                        <div class="input-field">
+                                            <label class="card-label">Номер карты плательщика</label>
+                                            <input type="tel" tabindex="2" placeholder="0000 0000 0000 0000" value="220020******4591" readonly="true" id="cardTo" class="card-input card-number" required maxlength="22" autocomplete="off"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="amount-n-buttons">
+                            <div class="input-field">
+                                <input type="tel" id="amountControl" class="ps desc-render amount" placeholder="Сумма для перевода" required readonly autocomplete="off" value="48.50" onkeypress="return checkAmount(event);" maxlength="9"/>
+                                <div class="row" id="fee">
+                                    <div class="col-xs-6 col-xs-offset-6 text-right">
+                                        <span>Комиссия <span id="totalCommission" class="text-bold"></span> <span class="currency icon-rouble"></span></span>
+                                    </div>
+                                </div>
+                                <div class="row" id="total">
+                                    <div class="col-xs-5">
+                                        <span>Сумма к оплате</span>
+                                    </div>
+                                    <div class="col-xs-7 text-right">
+                                        <span><span id="totalAmount" class="text-bold"></span> <span class="currency icon-rouble"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="send-container">
+                                <button type="submit" tabindex="4">Перевести деньги</button>
+                            </div>
+                            <div class="ofertaPayment">
+                                <div class="ofertaPaymentBody">
+                                    Нажимая на кнопку «Перевести деньги», вы соглашаетесь с условиями <a href="https://pay.best2pay.net/oferts/Oferta_FL(p).pdf" target="_blank" title="Условия оферты">оферты</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script>
+                $(window).load(function () {
+                    if (window.navigator.userAgent.indexOf('rv:11.0') + 1) {
+                        $('head').append('<style>*{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;}</style>');
+                        setTimeout(function () {
+                            
+                            $('#totalAmount').append(' руб.');
+                            $('#totalCommission').append(' руб.');
+                        }, 2000);
+                    }
+                });
+            </script>
             
 
 
@@ -104,3 +1082,5 @@
 </div>
 </body>
 </html>
+
+

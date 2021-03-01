@@ -5,7 +5,6 @@ import requests
 import pandas as pd
 from flask import Flask, jsonify, request, render_template, make_response
 
-
 TEST_ROOT_LINK = 'https://test.best2pay.net/'
 SECTOR = 2532
 REFERENCE = 1
@@ -16,7 +15,7 @@ PASSWORD = 'test'
 def renew_db():
     '''
     DB structure:
-    receiver_id, card, name, avatar (link), background (link)
+    receiver_id, login, password, login_signature, name, avatar (link), background (link), qr
     '''
 
     df = pd.read_csv('db.csv', sep=',')
@@ -28,7 +27,7 @@ def send_payment(receiver_id, income_sum, outcome_sum):
     params_income = {
         'id': receiver_id,
         'sum': income_sum,
-        }
+    }
     url_income = ''
     income_req = requests.post(url=url, params=params_income)
 
@@ -39,7 +38,7 @@ def send_payment(receiver_id, income_sum, outcome_sum):
     params_outcome = {
         'id': receiver_id,
         'sum': outcome_sum,
-        }
+    }
     url_outcome = ''
     income_req = requests.post(url=url, params=params_outcome)
 
@@ -50,7 +49,7 @@ def send_payment(receiver_id, income_sum, outcome_sum):
 def count_comission(payment):
     params = {
         'sum': payment,
-        }
+    }
     url = ''
 
     r = requests.post(url=url, params=params)
@@ -62,21 +61,83 @@ application = Flask(__name__)
 
 @application.route('/')
 def index():
-    return 'Home Page'
+    return render_template('login.html')
 
-@application.route('/career/')
-def career():
-    return 'Career Page'
 
-@application.route('/feedback/')
-def feedback():
-    return 'Feedback Page'
+@application.route('/register/')
+def reg_acc():
+    return render_template('register.html')
+
+
+@application.route('/sign_in/', methods=['POST'])
+def sign_in():
+    global df
+
+    df = renew_db()
+
+    login = request.form.get('login')
+    password = request.form.get('password')
+
+    true_data = False
+    
+    for receiver_id, person in df.iterrows():
+        if person['login'] == login and person['password'] == password:
+            return make_response(person['login_signature'])
+    return make_response('error')
+
+
+@application.route('/acc/')
+def profile():
+    global df
+
+    df = renew_db()
+    
+    receiver_signature = request.args.get('user')
+    usr = None
+    
+    for receiver_id, person in df.iterrows():
+        if person['login_signature'] == receiver_signature:
+            usr = person
+            break
+
+    name = person['name']
+    account_sum = 0
+
+    return render_template('profile.html', name=name, account_sum=account_sum)
+
+
+@application.route('/new_reg/', methods=['POST'])
+def new_reg():
+    global df
+
+    df = renew_db()
+    
+    login = request.form.get('login')
+    password = request.form.get('password')
+    name = request.form.get('name')
+    login_signature = get_signature(login)
+    
+    for receiver_id, person in df.iterrows():
+        if person['login_signature'] == login_signature:
+            return make_response('error')
+
+    usr_id = reg_b2p(name)
+
+    with open('db.csv', 'a', encoding='utf-8') as df:
+        df.write(f'{usr_id},{login},{password},{login_signature},{name},default_ava.png,default_back.png\n')
+
+    return make_response(login_signature)
+
+
+def reg_b2p(name):
+    return 1
+    
 
 @application.route('/comission/', methods=['POST'])
 def send_comission():
     value = request.form.get('value')
     comission = get_comission(value)
-    
+
     return make_response(str(comission))
 
 
@@ -84,18 +145,18 @@ def get_comission(value):
     comission = 50
 
     if value:
-        comission += int(value)*0.015
+        comission += int(value) * 0.015
     return comission
 
-            
+
 @application.route('/input_sum/')
 def input_sum():
     global df
-    
+
     receiver_id = request.args.get('receiver_id')
 
     df = renew_db()
-    
+
     name = df.at[int(receiver_id), 'name']
     card = df.at[int(receiver_id), 'card']
     avatar = df.at[int(receiver_id), 'avatar']
@@ -106,14 +167,15 @@ def input_sum():
 @application.route('/users/<receiver_id>')
 def user_profile(receiver_id):
     global df
-    
+
     df = renew_db()
-    
+
     name = df.at[int(receiver_id), 'name']
     avatar = df.at[int(receiver_id), 'avatar']
     background = df.at[int(receiver_id), 'background']
     qr = df.at[int(receiver_id), 'qr']
-    return render_template('user_profile.html', name=name, avatar=avatar, user_background=background, qr=qr, receiver_id=receiver_id)
+    return render_template('user_profile.html', name=name, avatar=avatar, user_background=background, qr=qr,
+                           receiver_id=receiver_id)
 
 
 @application.route('/pay/')
@@ -140,22 +202,22 @@ def make_payment():
     pay_gratitude(sum_pay, receiver_card)
 
     print(receiver_card, value, comission_included, payer_card, exp, cvc)
-    
+
     return make_response(')')
 
 
 @application.route('/transfer/', methods=['POST'])
-def transfer():    
+def transfer():
     payment_sum = int(request.form.get('payment_sum'))
     comission_included = int(request.form.get('comission_included'))
     receiver_id = request.form.get('receiver_id')
     card2 = df.at[int(receiver_id), 'card']
 
     while ' ' in card2:
-        card2 = card2.replace(' ' , '')
+        card2 = card2.replace(' ', '')
 
     # Delete
-    card2 = '2200200111114591'
+    # card2 = '2200200111114591'
     # Delete
 
     fee_value = get_comission(payment_sum)
@@ -171,8 +233,8 @@ def transfer():
         'sector': str(SECTOR),
         # 'id': str(order_id),
         'card2': str(card2),
-        'amount': str(int(payment_sum*100)),
-        'fee_value': str(int(fee_value*100)),
+        'amount': str(int(payment_sum * 100)),
+        'fee_value': str(int(fee_value * 100)),
         'signature': transfer_signature
     }
     print(transfer_params)
@@ -226,27 +288,18 @@ def count_income_payment(value, comission_included):
 
     comission = get_comission(value)
     value += comission
-    
+
     return value
 
 
 def count_receiver_payment(value, comission_included):
     if not comission_included:
         return value
-    
+
     comission = get_comission(value)
     value -= comission
-    
+
     return value
-    
-        
-
-def collect_gratitude(sum_receive, payer_card, exp, cvc):
-    pass
-
-
-def pay_gratitude(sum_pay, receiver_card):
-    pass
 
 
 if __name__ == '__main__':
