@@ -130,7 +130,7 @@ def new_reg():
     client_ref = reg_b2p(name)
 
     with open('db.csv', 'a', encoding='utf-8') as df:
-        df.write(f'{usr_id},{login},{password},{login_signature},{name},{client_ref},default_ava.png,default_back.png\n')
+        df.write(f'{usr_id},{login},{password},{login_signature},{name},{client_ref},default_ava.png,default_back.png,default_qr.png\n')
 
     return make_response(login_signature)
 
@@ -148,7 +148,7 @@ def reg_b2p(name):
         }
 
     r = requests.post(url=link, params=params)
-    client_ref = re.findall(r'<client_ref>(.*)</client_ref>', rtext)[0]
+    client_ref = re.findall(r'<client_ref>(.*)</client_ref>', r.text)[0]
     return client_ref
 
 
@@ -176,6 +176,30 @@ def set_phone_req(client_ref):
 
     r = requests.post(url=link, params=params)
     return r.text
+
+
+@application.route('/get_sign_in/', methods=['post'])
+def get_sign_in():
+    receiver_id = request.form.get('receiver_id')
+    amount = request.form.get('payment_sum')
+
+    df = renew_db()
+
+    client_ref = df.at[int(receiver_id), 'client_ref']
+
+    signature = get_signature(str(SECTOR), client_ref, amount, '643', PASSWORD)
+    return make_response(signature)
+
+@application.route('/get_client_ref/', methods=['post'])
+def get_ref():
+    receiver_id = request.form.get('receiver_id')
+    
+    df = renew_db()
+    print(receiver_id)
+
+    client_ref = df.at[int(receiver_id), 'client_ref']
+
+    return make_response(client_ref)
 
 
 @application.route('/pay_in/', methods=['post'])
@@ -255,10 +279,9 @@ def input_sum():
     df = renew_db()
 
     name = df.at[int(receiver_id), 'name']
-    card = df.at[int(receiver_id), 'card']
     avatar = df.at[int(receiver_id), 'avatar']
     background = df.at[int(receiver_id), 'background']
-    return render_template('copied_initial_page.html', name=name, card=card, avatar=avatar, background=background)
+    return render_template('copied_initial_page.html', name=name, avatar=avatar, background=background)
 
 
 @application.route('/users/<receiver_id>')

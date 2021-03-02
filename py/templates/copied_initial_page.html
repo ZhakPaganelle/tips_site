@@ -160,7 +160,7 @@ input::-webkit-inner-spin-button {
 <div id="payment">
 	<input id="pay_sum" type="number" step="50" placeholder="Размер благодарности" onkeyup="count_comission()" onchange="count_comission()" type="text" inputmode="numeric" autocomplete="off" maxlength="5">
 	<br>
-	<button id="card_pay" onclick="pay()">Оплатить картой</button>
+	<button id="card_pay" onclick="some_func()">Оплатить картой</button>
 	<div id="com">
 		<input type="checkbox" class="check" id="comission_check">
 	<label id="comission_value" width="100">Я согласен оплатить транзакционные <br>
@@ -174,6 +174,53 @@ input::-webkit-inner-spin-button {
 	</div>
 
 <script>
+function some_func() {
+	var comission_included = 1;
+	
+	if (document.getElementById("comission_check").checked){
+		comission_included = 0;
+	};
+	
+	var val = document.getElementById("pay_sum").value;
+	var payment_sum = (Number(val)*100).toFixed();
+	
+	const urlParams = new URLSearchParams(window.location.search);
+	const receiver_id = urlParams.get('receiver_id');
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/get_sign_in/');
+
+	var data = new FormData();
+
+	data.append('payment_sum', payment_sum)
+	data.append('receiver_id', receiver_id)
+
+	xhr.send(data);
+	
+	var sector = '2532'
+	
+	xhr.onload = function() {
+		//alert(1)
+		var sign = xhr.responseText;
+		x = new XMLHttpRequest();
+		x.open('POST', '/get_client_ref/');
+		
+		var data = new FormData();
+
+		data.append('receiver_id', receiver_id);
+		x.send(data);
+		
+		x.onload = function() {
+			var client_ref = x.responseText
+		
+			var link = 'https://test.best2pay.net/webapi/b2puser/PayIn/?sector=2532&amount=' + payment_sum + '&to_client_ref=' + client_ref + '&signature=' + sign
+			
+			window.location.replace(link);
+		
+	}
+	}
+};
+
 function count_comission() {
 	var value = document.getElementById("pay_sum").value
 	//var com = (value*0.015).toFixed(2);  // Change to query
