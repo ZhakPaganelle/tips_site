@@ -213,7 +213,7 @@ function some_func() {
 		x.onload = function() {
 			var client_ref = x.responseText
 		
-			var link = 'https://test.best2pay.net/webapi/b2puser/PayIn/?sector=2532&amount=' + payment_sum + '&to_client_ref=' + client_ref + '&signature=' + sign
+			var link = 'https://test.best2pay.net/webapi/b2puser/PayIn/?sector=2532&currency=643&amount=' + payment_sum + '&to_client_ref=' + client_ref + '&signature=' + sign
 			
 			window.location.replace(link);
 		

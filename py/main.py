@@ -86,6 +86,11 @@ def sign_in():
     return make_response('error')
 
 
+@application.route('/comp/ooo')
+def comp_profile():
+    return render_template('company_profile.html')
+
+
 @application.route('/acc/')
 def profile():
     global df
@@ -225,6 +230,8 @@ def pay_in(client_ref, amount, fee):
         'to_client_ref': client_ref,
         'signature': signature
         }
+    print(link)
+    print(params)
     
     r = requests.post(url=link, params=params)
     return r.text
