@@ -160,7 +160,7 @@ input::-webkit-inner-spin-button {
 <div id="payment">
 	<input id="pay_sum" type="number" step="50" placeholder="Размер благодарности" onkeyup="count_comission()" onchange="count_comission()" type="text" inputmode="numeric" autocomplete="off" maxlength="5">
 	<br>
-	<button id="card_pay" onclick="some_func()">Оплатить картой</button>
+	<button id="card_pay" onclick="pay()">Оплатить картой</button>
 	<div id="com">
 		<input type="checkbox" class="check" id="comission_check">
 	<label id="comission_value" width="100">Я согласен оплатить транзакционные <br>
@@ -245,8 +245,24 @@ function count_comission() {
 
 }	
 
+
+function get_fee(payment_sum) {
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/comission/');
+
+	var data = new FormData();
+
+	data.append('value', payment_sum)
+
+	xhr.send(data);
+
+	xhr.onload = function () {
+		return xhr.response
+	}
+}
+
+
 function pay() {
-	//alert()
 	var comission_included = 1;
 	
 	if (document.getElementById("comission_check").checked){
@@ -255,25 +271,48 @@ function pay() {
 	
 	var val = document.getElementById("pay_sum").value;
 	var payment_sum = Number(val);
-	
-	const urlParams = new URLSearchParams(window.location.search);
-	const receiver_id = urlParams.get('receiver_id');
-	
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/transfer/');
+
+	if (payment_sum == 0) {
+		alert()
+		return
+	}
+
+	var fee_xhr = new XMLHttpRequest();
+	fee_xhr.open('POST', '/comission/');
 
 	var data = new FormData();
 
-	data.append('payment_sum', payment_sum)
-	data.append('receiver_id', receiver_id)
-	data.append('comission_included', comission_included)
+	data.append('value', payment_sum)
 
-	xhr.send(data);
+	fee_xhr.send(data);
 
-	xhr.onload = function () {
-		window.location.href = '/card_payment_form/'
-	};
-}
+	fee_xhr.onload = function () {
+		fee = fee_xhr.response
+		if (comission_included) {
+			payment_sum -= fee
+		}
+
+		const urlParams = new URLSearchParams(window.location.search);
+		const receiver_id = urlParams.get('receiver_id');
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', '/pay_in/');
+
+		var data = new FormData();
+
+		data.append('amount', payment_sum)
+		data.append('receiver_id', receiver_id)
+		data.append('fee', fee)
+
+		xhr.send(data);
+
+		xhr.onload = function () {
+			window.location.href = xhr.response
+		};
+
+	}
+
+	}
 
 function pay_send_to_card() {
 	var comission_included = 1;

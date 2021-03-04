@@ -165,12 +165,13 @@ def set_phone():
         if person['login_signature'] == login_signature:
             ref = person['client_ref']
             break
-    html_set_phone = set_phone_req(ref)
-    print(html_set_phone)
+    url_set_phone = set_phone_req(ref)
+
+    return url_set_phone
 
 
 def set_phone_req(client_ref):
-    link = TEST_ROOT_LINK + 'webapi/b2puser/SetPhone'
+    link = TEST_ROOT_LINK + 'webapi/b2puser/SetPhone/?'
     signature = get_signature(str(SECTOR), client_ref, PASSWORD)
 
     params = {
@@ -179,8 +180,11 @@ def set_phone_req(client_ref):
         'signature': signature
         }
 
-    r = requests.post(url=link, params=params)
-    return r.text
+    for key in params.keys():
+        link += f'{key}={params[key]}&'
+
+    print(link)
+    return link
 
 
 @application.route('/get_sign_in/', methods=['post'])
@@ -209,16 +213,19 @@ def get_ref():
 
 @application.route('/pay_in/', methods=['post'])
 def get_gratitude():
-    client_ref = request.form.get('client_ref')
+    receiver_id = request.form.get('receiver_id')
     amount = request.form.get('amount')
     fee = request.form.get('fee')
 
-    html_pay_in = pay_in(client_ref, amount, fee)
-    print(html_pay_in)
+    df = renew_db()
+    client_ref = df.at[int(receiver_id), 'client_ref']
+
+    url_pay_in = pay_in(client_ref, amount, fee)
+    return url_pay_in
 
 
 def pay_in(client_ref, amount, fee):
-    link = TEST_ROOT_LINK + 'webapi/b2puser/PayIn'
+    link = TEST_ROOT_LINK + 'webapi/b2puser/PayIn?'
     amount = str(int(float(amount)*100))
     fee = str(int(float(fee)*100))
     signature = get_signature(str(SECTOR), client_ref, amount, '643', PASSWORD)
@@ -226,15 +233,18 @@ def pay_in(client_ref, amount, fee):
     params = {
         'sector': SECTOR,
         'amount': amount,
+        'currency': '643',
         'fee': fee,
+        'description': 'Gratitude',
         'to_client_ref': client_ref,
         'signature': signature
         }
+
+    for key in params.keys():
+        link += f'{key}={params[key]}&'
+
     print(link)
-    print(params)
-    
-    r = requests.post(url=link, params=params)
-    return r.text
+    return link
 
 
 def send_gratitude():
