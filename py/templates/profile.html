@@ -23,7 +23,7 @@
     <p id="money">{{ account_sum }}</p>
     <br>
     <br>
-    <button id="tie_card" onclick="tie_card()">Привязать карту</button>
+    <button id="tie_card" onclick="tie_card()">Привязать телефон</button>
     <br>
     <br>
     <input type="number" id="sum_out" placeholder="Сумма к выводу">
@@ -34,12 +34,44 @@
 
 <script>
     function tie_card() {
-        alert()
-    }
+        const urlParams = new URLSearchParams(window.location.search);
+		const login_signature = urlParams.get('user');
+
+        var xhr = new XMLHttpRequest();
+	    xhr.open('POST', '/set_phone/');
+
+	    var data = new FormData();
+
+        data.append('login_signature', login_signature)
+
+        xhr.send(data);
+
+        xhr.onload = function () {
+			window.location.href = xhr.response
+	    };
+
+    };
 
     function pay_out() {
-        alert()
-    }
+        const urlParams = new URLSearchParams(window.location.search);
+		const login_signature = urlParams.get('user');
+
+		var amount = 100;
+
+        var xhr = new XMLHttpRequest();
+	    xhr.open('POST', '/pay_out/');
+
+	    var data = new FormData();
+
+        data.append('login_signature', login_signature)
+        data.append('amount', amount)
+
+        xhr.send(data);
+
+        xhr.onload = function () {
+			window.location.href = xhr.response
+	    };
+    };
 </script>
 
 </body>

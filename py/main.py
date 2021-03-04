@@ -171,7 +171,7 @@ def set_phone():
 
 
 def set_phone_req(client_ref):
-    link = TEST_ROOT_LINK + 'webapi/b2puser/SetPhone/?'
+    link = TEST_ROOT_LINK + 'webapi/b2puser/SetPhone?'
     signature = get_signature(str(SECTOR), client_ref, PASSWORD)
 
     params = {
@@ -198,6 +198,7 @@ def get_sign_in():
 
     signature = get_signature(str(SECTOR), client_ref, amount, '643', PASSWORD)
     return make_response(signature)
+
 
 @application.route('/get_client_ref/', methods=['post'])
 def get_ref():
@@ -247,28 +248,40 @@ def pay_in(client_ref, amount, fee):
     return link
 
 
+@application.route('/pay_out/', methods=['post'])
 def send_gratitude():
-    client_ref = request.form.get('client_ref')
+    login_signature = request.form.get('login_signature')
+
+    for receiver_id, person in df.iterrows():
+        if person['login_signature'] == login_signature:
+            ref = person['client_ref']
+            break
+        
     amount = request.form.get('amount')
 
-    html_pay_out = pay_out(client_ref, amount)
-    print(html_pay_out)
+    url_pay_out = pay_out(ref, amount)
+    return make_response(url_pay_out)
 
 
 def pay_out(client_ref, amount):
-    link = TEST_ROOT_LINK + 'webapi/b2puser/PayOut'
+    link = TEST_ROOT_LINK + 'webapi/b2puser/PayOut?'
     amount = str(int(float(amount)*100))
     signature = get_signature(str(SECTOR), client_ref, amount, '643', PASSWORD)
 
     params = {
         'sector': SECTOR,
         'amount': amount,
+        'currency': '643',
+        'description': 'Gratitude',
         'from_client_ref': client_ref,
         'signature': signature
         }
     
-    r = requests.post(url=link, params=params)
-    return r.text
+    for key in params.keys():
+        link += f'{key}={params[key]}&'
+
+    print(link)
+    return link
     
 
 @application.route('/comission/', methods=['POST'])
