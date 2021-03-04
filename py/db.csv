@@ -1,2 +1,3 @@
-receiver_id,login,password,login_signature,name,avatar,background
-1,123,asd,MjAyY2I5NjJhYzU5MDc1Yjk2NGIwNzE1MmQyMzRiNzA=,123 123,default_ava.png,default_back.png
+receiver_id,login,password,login_signature,name,client_ref,avatar,background,qr
+0,s1,s,OGRkZjg3ODAzOWI3MDc2N2M0YTViY2Y0ZjBjNGY2NWU=,s s,095a555e-4ee0-4f8d-931a-9df6b41dfdf3,default_ava.png,default_back.png,default_qr.png
+1,ss,s,MzY5MTMwOGYyYTRjMmY2OTgzZjI4ODBkMzJlMjljODQ=,s s,5264c2ee-7e89-46e9-8742-b936afc7f46f,default_ava.png,default_back.png,default_qr.png
