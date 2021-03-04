@@ -234,7 +234,7 @@ def pay_in(client_ref, amount, fee):
         'sector': SECTOR,
         'amount': amount,
         'currency': '643',
-        'fee': fee,
+        'fee_value': fee,
         'description': 'Gratitude',
         'to_client_ref': client_ref,
         'signature': signature
