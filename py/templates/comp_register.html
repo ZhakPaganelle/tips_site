@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/PRIEMLEMO_ava.png" type="image/png">
+    <title>Регистрация</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        #register_form {
+            position: relative;
+            top: 40vh;
+        }
+    </style>
+</head>
+<body>
+
+<div id="register_form">
+    <input id="name" placeholder="Название компании">
+    <br>
+    <br>
+    <br><input id="login" placeholder="Логин">
+    <br>
+    <br>
+    <input id="password" type="password" placeholder="Пароль">
+    <br>
+    <br>
+    <input id="password_again" type="password" placeholder="Снова пароль">
+    <br>
+    <br>
+    <button id="register" onclick="register()">Зарегистрироваться</button>
+</div>
+
+<script>
+    function register() {
+        var login = document.getElementById("login").value
+        var password = document.getElementById("password").value
+        var password_again = document.getElementById("password_again").value
+        var name = document.getElementById("name").value
+
+        if (password != password_again) {
+            alert("Пароли не совпадают")
+            return
+        }
+
+        if (!(document.getElementById("login").value && document.getElementById("password").value && document.getElementById("name").value)) {
+            alert('Заполните все поля')
+            return
+        }
+
+        var xhr = new XMLHttpRequest();
+	    xhr.open('POST', '/new_reg_user/');
+
+	    var data = new FormData();
+
+        data.append('login', login)
+        data.append('password', password)
+        data.append('name', name)
+
+        xhr.send(data);
+
+        xhr.onload = function () {
+            if (xhr.response == "error") {
+                alert("Такой логин уже есть в системе")
+            } else {
+				var link = '/comp_profile/' + xhr.response
+		        window.location.href = link
+		    }
+	    };
+
+    }
+</script>
+
+</body>
+</html>

@@ -135,7 +135,7 @@ def get_acc_sum(client_ref):
     
 
 @application.route('/new_reg_user/', methods=['POST'])
-def new_reg():
+def new_reg_user():
     global df
 
     df = renew_db()
@@ -180,6 +180,50 @@ def reg_b2p(name):
     r = requests.post(url=link, params=params)
     client_ref = re.findall(r'<client_ref>(.*)</client_ref>', r.text)[0]
     return client_ref
+
+
+@application.route('/new_reg_comp/', methods=['POST'])
+def new_reg_comp():
+    df_comp = pd.read_csv('db_comp.csv', sep=',')
+    
+    login = request.form.get('login')
+    password = request.form.get('password')
+    name = request.form.get('name')
+
+    login_signature = get_signature(login)
+    
+    for receiver_id, company in df_comp.iterrows():
+        if company['login_signature'] == login_signature:
+            return make_response('error')
+
+    with open('db_comp.csv', 'a', encoding='utf-8') as df:
+        df.write(f'{name},{login},{password},{login_signature}\n')
+
+    return make_response('/comp_profile/' + login_signature)
+
+
+@application.route('/comp_sign_in/', methods=['POST'])
+def comp_sign_in():
+    df_comp = pd.read_csv('db_comp.csv', sep=',')
+
+    login = request.form.get('login')
+    password = request.form.get('password')
+
+    true_data = False
+    
+    for receiver_id, company in df_comp.iterrows():
+        if company['login'] == login and company['password'] == password:
+            return make_response('/comp_profile/' + company['login_signature'])
+    return make_response('error')
+
+
+@application.route('/comp_profile/<comp_login_sign>')
+def company_profile(comp_login_sign):
+    df_comp = pd.read_csv('db_comp.csv', sep=',')
+
+    for receiver_id, company in df_comp.iterrows():
+        if company['login_signature'] == comp_login_sign:
+            return make_response(company['name'])
 
 
 @application.route('/set_phone/', methods=['post'])

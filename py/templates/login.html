@@ -88,11 +88,10 @@
             if (xhr.response == "error") {
                 alert("Неправильный логин или пароль")
             } else {
-				var link = '/acc/?user=' + xhr.response
+				var link = xhr.response
 		        window.location.href = link
 		    }
 	    };
-
     }
 </script>
 
