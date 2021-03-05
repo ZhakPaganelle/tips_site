@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/PRIEMLEMO_ava.png" type="image/png">
     <title>Регистрация</title>
     <style>
         body {
@@ -30,11 +31,11 @@
     <input id="password_again" type="password" placeholder="Снова пароль">
     <br>
     <br>
-    <button id="signin" onclick="sign_in()">Зарегистрироваться</button>
+    <button id="register" onclick="register()">Зарегистрироваться</button>
 </div>
 
 <script>
-    function sign_in() {
+    function register() {
         var login = document.getElementById("login").value
         var password = document.getElementById("password").value
         var password_again = document.getElementById("password_again").value
@@ -42,19 +43,28 @@
         var l_name = document.getElementById("l_name").value
         var full_name = f_name + ' ' + l_name
 
+        const urlParams = new URLSearchParams(window.location.search);
+	    const company = urlParams.get('company');
+
         if (password != password_again) {
             alert("Пароли не совпадают")
             return
         }
 
+        if (!(document.getElementById("login").value && document.getElementById("password").value && document.getElementById("f_name").value && document.getElementById("l_name").value)) {
+            alert('Заполните все поля')
+            return
+        }
+
         var xhr = new XMLHttpRequest();
-	    xhr.open('POST', '/new_reg/');
+	    xhr.open('POST', '/new_reg_user/');
 
 	    var data = new FormData();
 
         data.append('login', login)
         data.append('password', password)
         data.append('name', full_name)
+        data.append('company', company)
 
         xhr.send(data);
 

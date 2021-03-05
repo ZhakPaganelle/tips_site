@@ -15,7 +15,7 @@ PASSWORD = 'test'
 def renew_db():
     '''
     DB structure:
-    receiver_id, login, password, login_signature, name, avatar (link), background (link), qr
+    receiver_id, login, password, login_signature, name, company, client_ref, avatar (link), background (link), qr
     '''
 
     df = pd.read_csv('db.csv', sep=',')
@@ -111,7 +111,7 @@ def profile():
     return render_template('profile.html', name=name, account_sum=account_sum)
 
 
-@application.route('/new_reg/', methods=['POST'])
+@application.route('/new_reg_user/', methods=['POST'])
 def new_reg():
     global df
 
@@ -120,6 +120,8 @@ def new_reg():
     login = request.form.get('login')
     password = request.form.get('password')
     name = request.form.get('name')
+    company = request.form.get('company')
+    
     while 'Ё' in name:
         name = name.replace('Ё', 'Е')
     while 'ё' in name:
@@ -135,7 +137,7 @@ def new_reg():
     client_ref = reg_b2p(name)
 
     with open('db.csv', 'a', encoding='utf-8') as df:
-        df.write(f'{usr_id},{login},{password},{login_signature},{name},{client_ref},default_ava.png,default_back.png,default_qr.png\n')
+        df.write(f'{usr_id},{login},{password},{login_signature},{name},{company},{client_ref},default_ava.png,default_back.png,default_qr.png\n')
 
     return make_response(login_signature)
 
