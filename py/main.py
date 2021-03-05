@@ -106,10 +106,28 @@ def profile():
             break
 
     name = person['name']
-    account_sum = 0
+    client_ref = person['client_ref']
+    
+    account_sum = get_acc_sum(client_ref)
 
     return render_template('profile.html', name=name, account_sum=account_sum)
 
+
+def get_acc_sum(client_ref):
+    link = TEST_ROOT_LINK + 'webapi/b2puser/GetBalance'
+    signature = get_signature(str(SECTOR), client_ref, PASSWORD)
+
+    params = {
+        'sector': SECTOR,
+        'client_ref': client_ref,
+        'signature': signature
+        }
+
+    r = requests.post(url=link, params=params)
+    available_balance = re.findall(r'<available_balance>(.*)</available_balance>', r.text)[0]
+
+    return available_balance
+    
 
 @application.route('/new_reg_user/', methods=['POST'])
 def new_reg():
