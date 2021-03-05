@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/PRIEMLEMO_ava.png" type="image/png">
     <title>Профиль</title>
     <style>
         body {
@@ -11,6 +12,23 @@
         #user_form {
             position: relative;
             top: 40vh;
+        }
+
+        #sum_out {
+            border:none;
+            border-bottom: 1px solid #1890ff;
+            padding: 5px 10px;
+            font-size: 1.5vh;
+            outline: none;
+        }
+
+        input[type='number'] {
+            -moz-appearance:textfield;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
         }
     </style>
 </head>
@@ -56,7 +74,12 @@
         const urlParams = new URLSearchParams(window.location.search);
 		const login_signature = urlParams.get('user');
 
-		var amount = 100;
+		var amount = document.getElementById("sum_out").value;
+
+        if (Number(amount) == 0) {
+		    alert("Введите сумму")
+		    return
+	    }
 
         var xhr = new XMLHttpRequest();
 	    xhr.open('POST', '/pay_out/');
