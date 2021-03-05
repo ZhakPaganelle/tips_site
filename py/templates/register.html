@@ -70,7 +70,7 @@
 
         xhr.onload = function () {
             if (xhr.response == "error") {
-                alert("Неправильный логин или пароль")
+                alert("Такой логин уже есть в системе")
             } else {
 				var link = '/acc/?user=' + xhr.response
 		        window.location.href = link
