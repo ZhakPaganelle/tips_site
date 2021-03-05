@@ -18,25 +18,64 @@
 <body>
 
 <div id="login_form">
-    <input id="login" placeholder="Логин">
+    <h2 id="receiver_log_in">Вход для иполнителя</h2>
+    <input id="user_login" placeholder="Логин">
     <br>
     <br>
-    <input id="password" type="password" placeholder="Пароль">
+    <input id="user_password" type="password" placeholder="Пароль">
     <br>
     <br>
-    <button id="signin" onclick="sign_in()">Войти</button>
+    <button id="user_signin" onclick="user_sign_in()">Войти</button>
     <br>
     <br>
-    <a href="/register/">Регистрация</a>
+    <a href="/register/">Регистрация для исполнителя</a>
+    <br>
+    <br>
+    <h2 id="comp_log_in">Вход для компании</h2>
+    <input id="comp_login" placeholder="Логин">
+    <br>
+    <br>
+    <input id="comp_password" type="password" placeholder="Пароль">
+    <br>
+    <br>
+    <button id="comp_signin" onclick="comp_sign_in()">Войти</button>
+    <br>
+    <br>
+    <a href="/comp_register/">Регистрация для компании</a>
 </div>
 
 <script>
-    function sign_in() {
-        var login = document.getElementById("login").value
-        var password = document.getElementById("password").value
+    function user_sign_in() {
+        var login = document.getElementById("user_login").value
+        var password = document.getElementById("user_password").value
 
         var xhr = new XMLHttpRequest();
-	    xhr.open('POST', '/sign_in/');
+	    xhr.open('POST', '/user_sign_in/');
+
+	    var data = new FormData();
+
+        data.append('login', login)
+        data.append('password', password)
+
+        xhr.send(data);
+
+        xhr.onload = function () {
+            if (xhr.response == "error") {
+                alert("Неправильный логин или пароль")
+            } else {
+				var link = '/acc/?user=' + xhr.response
+		        window.location.href = link
+		    }
+	    };
+
+    }
+
+    function comp_sign_in() {
+        var login = document.getElementById("comp_login").value
+        var password = document.getElementById("comp_password").value
+
+        var xhr = new XMLHttpRequest();
+	    xhr.open('POST', '/comp_sign_in/');
 
 	    var data = new FormData();
 

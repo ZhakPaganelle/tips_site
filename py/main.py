@@ -69,7 +69,12 @@ def reg_acc():
     return render_template('register.html')
 
 
-@application.route('/sign_in/', methods=['POST'])
+@application.route('/comp_register/')
+def comp_reg_acc():
+    return render_template('comp_register.html')
+
+
+@application.route('/user_sign_in/', methods=['POST'])
 def sign_in():
     global df
 
