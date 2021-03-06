@@ -72,7 +72,7 @@
     {% for maker in makers %}
     <div class="maker">
         <img src="{{maker[1]}}">
-        <a href="http://priemlemo.com/sum_input?receiver_id={{maker[0]}}" target="_blank"><img src="http://qrcoder.ru/code/?http%3A%2F%2Fpriemlemo.com%2Finput_sum%2F%3Freceiver_id%3D{{maker[0]}}&6&0" width="246" height="246" border="0" title="QR код"></a>
+        <a href="http://priemlemo.com/input_sum?receiver_id={{maker[0]}}" target="_blank"><img src="http://qrcoder.ru/code/?http%3A%2F%2Fpriemlemo.com%2Finput_sum%2F%3Freceiver_id%3D{{maker[0]}}&6&0" width="246" height="246" border="0" title="QR код"></a>
         <h2 class="name">{{maker[2]}}</h2>
         <button class="feedback" onclick="show_feedback({{maker[0]}})">Отзывы</button>
     </div>

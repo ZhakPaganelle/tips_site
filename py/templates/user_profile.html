@@ -15,8 +15,6 @@ body {
 	text-align: center;
 	position: relative;
 	height: 25vh;
-	
-	background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(bryan-papazov-StDwbfM6Oy0-unsplash.jpg);
 }
 
 #contractor {
@@ -120,7 +118,7 @@ body {
 </div>
 
 <div id="qr_div">
-	<img id="qr" src="/static/users/{{ qr }}">
+	<a href="http://priemlemo.com/input_sum?receiver_id={{ receiver_id }}" target="_blank"><img src="http://qrcoder.ru/code/?http%3A%2F%2Fpriemlemo.com%2Finput_sum%2F%3Freceiver_id%3D{{ receiver_id }}&6&0" width="246" height="246" border="0" title="QR код"></a>
 </div>
 
 <div id="button_to_payment">

@@ -457,6 +457,7 @@ def input_sum():
 
 @application.route('/users/<receiver_id>')
 def user_profile(receiver_id):
+    print(receiver_id)
     global df
 
     df = renew_db()
@@ -465,8 +466,7 @@ def user_profile(receiver_id):
     avatar = df.at[int(receiver_id), 'avatar']
     background = df.at[int(receiver_id), 'background']
     qr = df.at[int(receiver_id), 'qr']
-    return render_template('user_profile.html', name=name, avatar=avatar, user_background=background, qr=qr,
-                           receiver_id=receiver_id)
+    return render_template('user_profile.html', name=name, avatar=avatar, user_background=background, receiver_id=receiver_id)
 
 
 @application.route('/pay/')
