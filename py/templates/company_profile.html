@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/static/PRIEMLEMO_ava.png" type="image/png">
-        <title>Просмотр исполнителей</title>
+    <title>Просмотр исполнителей</title>
     <style>
         #left_logo_dev {
             position: absolute;
@@ -85,11 +85,11 @@
         const urlParams = new URLSearchParams(window.location.search);
         const company = urlParams.get('company');
 
-        window.location.href = '/register?company=' + company
+        window.location.href = '/register?company=' + company;
     }
 
     function show_feedback(receiver_id) {
-        window.location.href = '/feedback/' + receiver_id
+        window.location.href = '/feedback/' + receiver_id;
     }
 </script>
 

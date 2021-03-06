@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/PRIEMLEMO_ava.png" type="image/png">
+    <title>Отзывы</title>
+
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="contractor">
+	<img id="context" src="/static/users/default_background.jpg">
+	<br>
+	<img id="avatar" src="/static/users/{{ avatar }}">
+	<p id="name">{{ name }}<p>
+	<div id="rating">
+		<img class="star" id="star1" src="">
+		<img class="star" id="star2" src="">
+		<img class="star" id="star3" src="">
+		<img class="star" id="star4" src="">
+		<img class="star" id="star5" src="">
+	</div>
+</div>
+
+<div id="feedback_list">
+    {% for comment in comments %}
+    <div class="comment">
+        <p class="comment_text">{{ comment }}</p>
+        <br>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>

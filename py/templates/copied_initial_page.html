@@ -167,6 +167,10 @@ input::-webkit-inner-spin-button {
 		издержки (50 руб.), благодарность будет <br>
 		полностью зачислена получателю.</label>
 	</div>
+	<div id="feedback">
+		<input id="feedback_text" placeholder="Отзыв">
+		<button id="send_feedback" onclick="send_feedback()">Отправить отзыв</button>
+	</div>
 </div>
 	<div id="acceptable">
 		<img id="lemon" src="/static/PRIEMLEMO_text.jpeg">
@@ -328,6 +332,22 @@ function pay_send_to_card() {
 	link = "/pay?receiver_id=" + receiver_id + "&sum=" + pay_sum + "&comission_included=" + comission_included
 	
 	window.location.href = link
+}
+
+function send_feedback() {
+	const urlParams = new URLSearchParams(window.location.search);
+	const receiver_id = urlParams.get('receiver_id');
+	const feedback = document.getElementById("feedback_text").value;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/add_feedback/');
+
+	var data = new FormData();
+
+	data.append('receiver_id', receiver_id)
+	data.append('comment', feedback)
+
+	xhr.send(data);
 }
 
 </script>

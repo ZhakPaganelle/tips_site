@@ -263,6 +263,41 @@ def render_maker(index, maker):
     return resp
 
 
+@application.route('/feedback/<receiver_id>')
+def feedback(receiver_id):
+    df_users = renew_db()
+    name = df_users.at[int(receiver_id), 'name']
+    avatar = df_users.at[int(receiver_id), 'avatar']
+
+    comments = get_comments(receiver_id)
+    print(comments)
+
+    return render_template('feedback.html', name=name, avatar=avatar, comments=comments)
+
+
+def get_comments(receiver_id):
+    df_feedback = pd.read_csv('db_feedback.csv', sep=',')
+    
+    comments = []
+    
+    for index, comment in df_feedback.iterrows():
+        if int(comment['receiver_id']) == int(receiver_id):
+            comments.append(comment['text'])
+
+    return comments
+
+
+@application.route('/add_feedback/', methods=['post'])
+def add_feedback():
+    receiver_id = request.form.get('receiver_id')
+    comment = request.form.get('comment')
+
+    with open('db_feedback.csv', 'a', encoding='utf-8') as df:
+        df.write(f'{receiver_id},{comment}\n')
+
+    return make_response('ok')
+
+
 @application.route('/set_phone/', methods=['post'])
 def set_phone():
     login_signature = request.form.get('login_signature')
