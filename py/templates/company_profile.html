@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/static/PRIEMLEMO_ava.png" type="image/png">
-    <title>Просмотр исполнителей</title>
+        <title>Просмотр исполнителей</title>
     <style>
         #left_logo_dev {
             position: absolute;
@@ -44,6 +44,15 @@
             width: 50vw;
             border: 1px solid #000000
         }
+
+        .avatar {
+            object-fit: cover;
+            width: 246px;
+            height: 246px;
+            position: relative;
+            height: 148px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -53,37 +62,36 @@
     </div>
 
     <div id="company_name">
-        <h1 id="company_name_text">ООО "ООО"</h1>
+        <h1 id="company_name_text">{{ name }}</h1>
     </div>
+
+    <button id="add_user" onclick="add_user()">Добавить исполнителя</button>
 </div>
 
 <div id="makers_list">
+    {% for maker in makers %}
     <div class="maker">
-        <img src="https://d2f7anuvnar8n5.cloudfront.net/p/images2/pc/gv/nl/zfhphwk/thumbnail_3cc359daa7dca35bc24820a870687d7dd6543454.jpg">
-        <a href="http://priemlemo.com/users/1" target="_blank"><img src="http://qrcoder.ru/code/?http%3A%2F%2Fpriemlemo.com%2Fusers%2F1&4&0" width="148" height="148" border="0" title="QR код"></a>
-        <h2 class="name">Коля Иванов</h2>
-        <div class="feedback">
-            <p>Хороший работник</p>
-        </div>
-        <div class="feedback">
-            <p>Качественно сделал</p>
-        </div>
+        <img src="{{maker[1]}}">
+        <a href="http://priemlemo.com/sum_input?receiver_id={{maker[0]}}" target="_blank"><img src="http://qrcoder.ru/code/?http%3A%2F%2Fpriemlemo.com%2Finput_sum%2F%3Freceiver_id%3D{{maker[0]}}&6&0" width="246" height="246" border="0" title="QR код"></a>
+        <h2 class="name">{{maker[2]}}</h2>
+        <button class="feedback" onclick="show_feedback({{maker[0]}})">Отзывы</button>
     </div>
-
     <br>
-
-    <div class="maker">
-        <img src="https://d2f7anuvnar8n5.cloudfront.net/p/images2/pc/gv/nl/zfhphwk/thumbnail_3cc359daa7dca35bc24820a870687d7dd6543454.jpg">
-        <a href="http://priemlemo.com/users/1" target="_blank"><img src="http://qrcoder.ru/code/?http%3A%2F%2Fpriemlemo.com%2Fusers%2F1&4&0" width="148" height="148" border="0" title="QR код"></a>
-        <h2 class="name">Иван Николаев</h2>
-        <div class="feedback">
-            <p>Больше отзывов</p>
-        </div>
-        <div class="feedback">
-            <p>Богу отзывов</p>
-        </div>
-    </div>
+    {% endfor %}
 </div>
+
+<script>
+    function add_user() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const company = urlParams.get('company');
+
+        window.location.href = '/register?company=' + company
+    }
+
+    function show_feedback(receiver_id) {
+        window.location.href = '/feedback/' + receiver_id
+    }
+</script>
 
 </body>
 </html>

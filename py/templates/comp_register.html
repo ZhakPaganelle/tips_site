@@ -21,6 +21,9 @@
     <input id="name" placeholder="Название компании">
     <br>
     <br>
+    <input id="site" placeholder="Сайт компании">
+    <br>
+    <br>
     <br><input id="login" placeholder="Логин">
     <br>
     <br>
@@ -39,6 +42,7 @@
         var password = document.getElementById("password").value
         var password_again = document.getElementById("password_again").value
         var name = document.getElementById("name").value
+        var site = document.getElementById("site").value
 
         if (password != password_again) {
             alert("Пароли не совпадают")
@@ -51,13 +55,14 @@
         }
 
         var xhr = new XMLHttpRequest();
-	    xhr.open('POST', '/new_reg_user/');
+	    xhr.open('POST', '/new_reg_comp/');
 
 	    var data = new FormData();
 
         data.append('login', login)
         data.append('password', password)
         data.append('name', name)
+        data.append('site', site)
 
         xhr.send(data);
 
@@ -65,7 +70,7 @@
             if (xhr.response == "error") {
                 alert("Такой логин уже есть в системе")
             } else {
-				var link = '/comp_profile/' + xhr.response
+				var link = xhr.response
 		        window.location.href = link
 		    }
 	    };

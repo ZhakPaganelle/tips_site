@@ -13,6 +13,8 @@ PASSWORD = 'test'
 
 
 def renew_db():
+    global df
+    
     '''
     DB structure:
     receiver_id, login, password, login_signature, name, company, client_ref, avatar (link), background (link), qr
@@ -144,12 +146,13 @@ def new_reg_user():
     password = request.form.get('password')
     name = request.form.get('name')
     company = request.form.get('company')
-    
+    print(company)
+    '''
     while 'Ё' in name:
         name = name.replace('Ё', 'Е')
     while 'ё' in name:
         name = name.replace('ё', 'е')
-        
+    ''' 
     login_signature = get_signature(login)
     
     for receiver_id, person in df.iterrows():
@@ -189,17 +192,19 @@ def new_reg_comp():
     login = request.form.get('login')
     password = request.form.get('password')
     name = request.form.get('name')
+    site = request.form.get('site')
 
     login_signature = get_signature(login)
     
     for receiver_id, company in df_comp.iterrows():
         if company['login_signature'] == login_signature:
+            print(1, company)
             return make_response('error')
 
     with open('db_comp.csv', 'a', encoding='utf-8') as df:
-        df.write(f'{name},{login},{password},{login_signature}\n')
+        df.write(f'{name},{login},{password},{login_signature},{site}\n')
 
-    return make_response('/comp_profile/' + login_signature)
+    return make_response('/comp_profile?company=' + login_signature)
 
 
 @application.route('/comp_sign_in/', methods=['POST'])
@@ -213,17 +218,49 @@ def comp_sign_in():
     
     for receiver_id, company in df_comp.iterrows():
         if company['login'] == login and company['password'] == password:
-            return make_response('/comp_profile/' + company['login_signature'])
+            return make_response('/comp_profile?company=' + company['login_signature'])
     return make_response('error')
 
 
-@application.route('/comp_profile/<comp_login_sign>')
-def company_profile(comp_login_sign):
+@application.route('/comp_profile/')
+def company_profile():
     df_comp = pd.read_csv('db_comp.csv', sep=',')
 
-    for receiver_id, company in df_comp.iterrows():
+    comp_login_sign = request.args.get('company')
+
+    for comp_id, company in df_comp.iterrows():
         if company['login_signature'] == comp_login_sign:
-            return make_response(company['name'])
+            name = company['name']
+            break
+
+    makers = get_makers(company['login_signature'])
+    
+    return render_template('company_profile.html', name=name, makers=makers)
+
+
+def get_makers(comp_sign):
+    df_comp = pd.read_csv('db_comp.csv', sep=',')
+    df_users = renew_db()
+
+    makers = []
+    
+    for index, user in df_users.iterrows():
+        if user['company'] == comp_sign:
+            makers.append([index, user['avatar'], user['name']])
+
+    return makers
+
+
+def render_maker(index, maker):
+    resp = f'''<div class="maker">
+        <img src="{maker['avatar']}">
+        <a href="http://priemlemo.com/sum_input?receiver_id={index}" target="_blank"><img src="http://qrcoder.ru/code/?http%3A%2F%2Fpriemlemo.com%2Finput_sum%2F%3Freceiver_id%3D{index}&6&0" width="246" height="246" border="0" title="QR код"></a>
+        <h2 class="name">{maker['name']}</h2>
+        <button class="feedback" onclick="show_feedback({index})">Отзывы
+    </div>
+    '''
+    
+    return resp
 
 
 @application.route('/set_phone/', methods=['post'])
